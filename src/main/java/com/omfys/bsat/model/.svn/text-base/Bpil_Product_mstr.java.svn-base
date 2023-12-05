@@ -1,0 +1,73 @@
+package com.omfys.bsat.model;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "BPIL_PRODUCT_MASTER")
+public class Bpil_Product_mstr {
+	
+	@Id
+	@Column(name = "PRODUCT_ID")
+	private int product_id;
+	
+	@Column(name = "PRODUCT")
+	private String product;
+	
+	@Column(name = "PRD_DESC")
+	private String prd_desc;	
+	
+	@Column(name = "PRD_CODE")
+	private String prd_code;
+	
+	@Column(name = "SHD_CODE")
+	private String shd_code;
+	
+	@Column(name = "PRD_UOM")
+	private String prd_uom;
+	
+	@Column(name = "PRD_GRP")
+	private String prd_grp;
+	
+	@Column(name = "PRD_CAT")
+	private String prd_cat;
+	
+	@Column(name = "PRD_CAT_DESC")
+	private String prd_cat_desc;
+	
+	@Column(name = "PRD_CBNCB")
+	private String prd_cbncb ;
+	
+	@Column(name = "PRD_LB")
+	private String prd_lb;
+		
+	@Column(name = "SPD_PRD_CAT")
+	private String spd_prd_cat;
+	
+	@Column(name = "PACK_SIZE")
+	private int pack_size;
+	
+	@Column(name = "CREATED_BY")
+	private int created_by;
+
+	@DateTimeFormat(pattern = "dd/mm/yyyy")
+	@Column(name = "CREATION_DATE" , updatable = false)
+	private Date creation_date= new java.sql.Date(new java.util.Date().getTime());
+
+	@Column(name = "LAST_UPDATED_BY")
+	private int last_updated_by;
+
+	@DateTimeFormat(pattern = "dd/mm/yyyy")
+	@Column(name = "LAST_UPDATE_DATE" , updatable = true)
+	private Date last_update_date= new java.sql.Date(new java.util.Date().getTime());
+			
+}

@@ -1,0 +1,487 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<form action="updateoutput" method="post" id="Saveform">
+	<div class="form-group row">
+
+		<div class="col-md-2">
+			<label class="block" for="inputSuccess">Scheme Name Test: <scan class="required">*</scan></label>
+		</div>
+		<div class="col-md-3">
+			<select class="form-control form-control-sm form-control-primary"
+				data-plugin-selectTwo name="scheme_name" id="scheme_name"
+				required="required">
+				<option>--Select--</option>
+			</select>
+		</div>
+		<div class="col-md-1"></div>
+		<div class="col-md-1"></div>
+	</div>
+
+	<div class="form-group row">
+		<div class="col-md-12" style="text-align: center;">
+			<input type="button" class="btn btn-primary btn-sm" id="action4"
+				name="gen_report" value="Show Report" onclick="myFunction2()"></input>
+			<input type="button" class="btn btn-primary btn-sm" id="action5"
+				name="show_report" value="Download Report" onclick="myFunction4()"></input>
+		</div>
+	</div>
+
+	<hr>
+	<!-- start: page -->
+	<div class="card">
+		<div class="card-block">
+			<div class="form-group row">
+
+				<div class="col-md-4">
+					<label class="control-label" for="inputSuccess">Incentive
+						for Lead</label> <input type="text" class="form-control form-control-sm"
+						name="flat_incentive"
+						value="${Final_Incentives.final_flat_incentive}" />
+				</div>
+				<div class="col-md-4">
+					<label class="control-label" for="inputSuccess">Performance
+						Incentive</label> <input type="text" class="form-control form-control-sm"
+						name="performance_incentive"
+						value="${Final_Incentives.final_performance_incentive}" />
+				</div>
+				<div class="col-md-4">
+					<label class="control-label" for="inputSuccess">Additional
+						Incentive</label> <input type="text" class="form-control form-control-sm"
+						name="additional_incentive"
+						value="${Final_Incentives.final_additional_incentive}" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- start: page -->
+	<div class="card">
+		<div class="card-header">
+			<h5>Reward Details</h5>
+		</div>
+		<div class="card-block">
+			<div class="dt-responsive table-responsive">
+				<table id="simpletable"
+					class="table table-striped table-bordered nowrap">
+					<thead>
+						<tr>
+							<th class="center" width="10%">ID</th>
+							<th class="center" width="60%">Actual Basic Pay</th>
+							<th class="center" width="30%">Employee Name</th>
+							<th class="center" width="10%">Department</th>
+							<th class="center" width="50%">Processed Average Basic Pay</th>
+							<th class="center" width="30%">Basic Proportion</th>
+							<th class="center" width="20%">Designation</th>
+							<th class="center" width="20%">Flat Incentive</th>
+							<th class="center" width="60%">Quarterly Performance Rating
+								by HOD</th>
+							<th class="center" width="30%">Performance Proportion</th>
+							<th class="center" width="30%">Performance Incentive</th>
+							<th class="center" width="30%">Additional Incentive</th>
+							<th class="center" width="30%">Total Payable</th>
+						</tr>
+					</thead>
+					<tbody>
+						<%
+						int j = 1;
+						%>
+						<c:forEach var="info" items="${Info_grid}" varStatus="status">
+							<tr>
+
+								<td>${info.id}</td>
+								<td>${info.actual_basic_pay}</td>
+								<td>${info.emp_name}</td>
+								<td>${info.department}</td>
+								<td>${info.processed_basic_average_pay}</td>
+								<td>${info.basic_proportion}</td>
+								<td>${info.designation}</td>
+								<td>${info.flat_incentive}</td>
+								<td>${info.quarterly_performance_rating_by_hod}</td>
+								<td>${info.performance_proportion}</td>
+								<td>${info.performance_incentive}</td>
+								<td>${info.additional_incentive}</td>
+								<td>${info.total_payable}</td>
+							</tr>
+							<%
+							j = j + 1;
+							%>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-header">
+			<h5>Document Details</h5>
+		</div>
+		<div class="card-block">
+			<div class="dt-responsive table-responsive">
+				<table id="order-table"
+					class="table table-striped table-bordered nowrap">
+					<thead>
+						<tr>
+
+							<th class="center">Sr. No.</th>
+							<th class="center">Document Type</th>
+							<th class="center">Document Title</th>
+							<th class="center">Reference Number</th>
+							<th class="center">Upload Date</th>
+							<th class="center">Download File</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<%
+						int i = 1;
+						%>
+						<c:forEach var="grp_reg" items="${doc_list}" varStatus="status">
+
+							<tr>
+								<td><%=i%> <input type="hidden"
+									value="${grp_reg.scheme_doc_id}" id="scheme_doc_id<%=i%>"
+									name="scheme_doc_id" /></td>
+
+								<td><input type="text" class="lovdata" id="doc_type<%=i%>"
+									name="doc_type" value="${grp_reg.doc_type}"
+									style="width: 100%;" readonly /></td>
+
+								<td><input type="text" id="doc_title<%=i%>"
+									name="doc_title" value="${grp_reg.doc_title}"
+									style="width: 100%;" readonly /></td>
+
+								<td><input type="text" id="doc_srl_no<%=i%>"
+									name="doc_srl_no" value="${JSON.scheme_srl_no}"
+									style="width: 100%;" readonly /></td>
+								<td><input type="text" id="doc_upload_date<%=i%>"
+									name="doc_upload_date" value="${grp_reg.doc_upload_date1}"
+									style="width: 100%;" readonly /></td>
+
+								<td><a href="DowdDocument?Doc_id=${grp_reg.scheme_doc_id}"><i
+										class="fa fa-download bigger-160" aria-hidden="true"></i></a></td>
+							</tr>
+							<%
+							i = i + 1;
+							%>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</form>
+<!-- end: page -->
+<!-- </section> -->
+
+<script src="resources/newportal/vendor/jquery/jquery.js"></script>
+
+<script>
+	$(window).load(function() {
+          $('.required').css({
+        	  'color':'red'
+          })
+	})
+
+	$(window)
+			.load(
+					function() {
+
+						$('.col-xs-12.col-sm-12').css({
+							'overflow-x' : 'auto'
+						});
+						$
+								.ajax({
+									//     url: '${pageContext.request.contextPath}/getschemename1',
+									url : '${pageContext.request.contextPath}/getschschemename',
+									success : function(data) {
+
+										var select = $('#scheme_name');
+										select.find('option').remove();
+										$('<option>').val("")
+												.text("--Select--").appendTo(
+														select);
+										$
+												.each(
+														data,
+														function(index, value) {
+															var scheme_nm_code = value.scheme_name
+																	+ '('
+																	+ value.scheme_code
+																	+ ')';
+															if (value.scheme_id == "${scheme_id}") {
+																$(
+																		'<option selected>')
+																		.val(
+																				value.scheme_id)
+																		.text(
+																				scheme_nm_code)
+																		.appendTo(
+																				select);
+															} else {
+																$('<option>')
+																		.val(
+																				value.scheme_id)
+																		.text(
+																				scheme_nm_code)
+																		.appendTo(
+																				select);
+															}
+														});
+
+									}
+								});
+
+						var schemeid = "${scheme_id}";
+						$
+								.ajax({
+									//     url: '${pageContext.request.contextPath}/getschemedepot',
+									url : '${pageContext.request.contextPath}/getschemedepotdetails',
+									data : ({
+										schemeid : schemeid
+									}),
+									success : function(data) {
+
+										var select = $('#depot_name');
+										select.find('option').remove();
+										$('<option>').val("")
+												.text("--Select--").appendTo(
+														select);
+										$
+												.each(
+														data,
+														function(index, value) {
+
+															//             	 if(value.depot_code == "${deptnm}"){
+
+															// 					$('<option selected>').val(value.depot_code).text(value.depot_name).appendTo(select);
+															//             	 } else {
+															//             		 $('<option>').val(value.depot_code).text(value.depot_name).appendTo(select);
+															//             	 }
+
+															if (value.sch_depot_code == "${deptnm}") {
+
+																$(
+																		'<option selected>')
+																		.val(
+																				value.sch_depot_code)
+																		.text(
+																				value.sch_depot_name)
+																		.appendTo(
+																				select);
+															} else {
+																$('<option>')
+																		.val(
+																				value.sch_depot_code)
+																		.text(
+																				value.sch_depot_name)
+																		.appendTo(
+																				select);
+															}
+
+														});
+
+									}
+								});
+
+						$
+								.ajax({
+									url : '${pageContext.request.contextPath}/getschopawebserviceUrl',
+									data : ({
+										scheme_id : schemeid
+									}),
+									success : function(data) {
+
+										$('#schopawebservice').val(data);
+
+									}
+								});
+
+						$('#scheme_name')
+								.change(
+										function(event) {
+											var schemeid = $(
+													"select#scheme_name").val();
+											$
+													.ajax({
+														//         url: '${pageContext.request.contextPath}/getschemedepot',
+														url : '${pageContext.request.contextPath}/getschemedepotdetails',
+														data : ({
+															schemeid : schemeid
+														}),
+														success : function(data) {
+
+															var select = $('#depot_name');
+															select.find(
+																	'option')
+																	.remove();
+															$('<option>')
+																	.val("")
+																	.text(
+																			"--Select--")
+																	.appendTo(
+																			select);
+															$
+																	.each(
+																			data,
+																			function(
+																					index,
+																					value) {
+
+																				// 	            	 if(value.depot_code == "${deptnm}"){
+
+																				// 						$('<option selected>').val(value.depot_code).text(value.depot_name).appendTo(select);
+																				// 	            	 } else {
+																				// 	            		 $('<option>').val(value.depot_code).text(value.depot_name).appendTo(select);
+																				// 	            	 }
+
+																				//	 	            	 if(value.sch_depot_code == "${deptnm}"){
+
+																				//	 						$('<option selected>').val(value.sch_depot_code).text(value.sch_depot_name).appendTo(select);
+																				//	 	            	 } else {
+																				$(
+																						'<option>')
+																						.val(
+																								value.sch_depot_code)
+																						.text(
+																								value.sch_depot_name)
+																						.appendTo(
+																								select);
+																				//	 	            	 }
+
+																			});
+
+														}
+													});
+
+											$
+													.ajax({
+														url : '${pageContext.request.contextPath}/getschopawebserviceUrl',
+														data : ({
+															scheme_id : schemeid
+														}),
+														success : function(data) {
+
+															$(
+																	'#schopawebservice')
+																	.val(data);
+
+														}
+													});
+
+										});
+
+					});
+</script>
+<script>
+	function myFunction1() {
+
+		//         	setTimeout(myFunction3, 1000);
+		//         	  var depot_name = $('#depot_name').val();
+		//               var scheme_id = $('#scheme_name').val();
+		//               var finanalysis = "0";
+
+		//         	$.ajax({
+		// 			    url: '${pageContext.request.contextPath}/callopa',
+		// 			    data:({depot_name : depot_name ,scheme_id : scheme_id, finanalysis : finanalysis}),
+		// 			    success: function(data) {				        	
+
+		// 			       		$("#loading").hide();
+		// 			       		myFunction2();
+		// 			    }
+		// 			  });
+
+		var schopawebservice = $('#schopawebservice').val();
+		var scheme_id = $('#scheme_name').val();
+		var depot_code = $('#depot_name').val();
+		//             var dlr_ac_name = "";
+
+		if (scheme_id != "") {
+			if (depot_code != "") {
+				//             		if(dlr_ac_name != ""){
+				if (schopawebservice != null && schopawebservice != "") {
+					window.location.href = "callSchOpaWebservloadoutputdata?scheme_id="
+							+ scheme_id + "&depot=" + depot_code;
+
+				} else {
+					alert("No OPA Webservice url for this scheme");
+				}
+				//             		} else{
+				//                     	alert("Please select dealer name.");
+				//                     }
+
+			} else {
+				alert("Please select depot name.");
+			}
+
+		} else {
+			alert("Please select scheme name.");
+		}
+
+		//	 window.location.href = "loadoutputdata?deptnm="+depot_name+"&&schnm="+scheme_name+"";
+	}
+
+	function myFunction3() {
+		$("#loading").show();
+	}
+
+	function myFunction4() {
+		window.location.href = "downloadSalesSchAnReportSoap";
+	}
+</script>
+
+<script>
+	function myFunction2() {
+		var scheme_name = document.getElementById("scheme_name").value;
+		window.location.href = "showSalesSchAnReportSoap?scheme_name="
+				+ scheme_name;
+	}
+</script>
+
+
+<script>
+	function submitform() {
+		$('#action').val("Update");
+		var aa = confirm('Do you want to update this scheme?')
+		if (aa == true) {
+			$('#Saveform').submit();
+		} else {
+			return false;
+		}
+	}
+
+	function submitform1() {
+		$('#action').val("Freeze");
+		var aa = confirm('Are you sure to freeze this scheme?')
+		if (aa == true) {
+			$('#Saveform').submit();
+		} else {
+			return false;
+		}
+	}
+</script>
+
+<script>
+	$('.docalculation').keyup(function() {
+
+		$('#sch_total' + count).val("0");
+
+		var count = $('.docalculation').index(this) + 1;
+		var sch_ty_tot_vol = $('#sch_ty_tot_vol' + count).val();
+		var sch_adjusted = $('#sch_adjusted' + count).val();
+
+		var sum = parseInt(sch_ty_tot_vol) + parseInt(sch_adjusted);
+
+		$('#sch_total' + count).val(sum);
+		$('#change_flag' + count).val("Y");
+	});
+</script>
+
+
+
+<script>
+	$(document).ready(function() {
+
+		$("#loading").hide();
+
+	});
+</script>

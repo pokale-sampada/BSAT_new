@@ -1,0 +1,22 @@
+{
+  "lookups":null,
+    "commands":[
+         {
+        "insert": {
+            "out-identifier":"BSAT_RULE",
+            "object":{   
+                "com.trial.bsat.BSAT_Module":{
+                     "res_line_status":"closed",
+                    "so_line_total":"999"    
+                }  
+            },
+            "disconnected":true,
+            "return-object":true,
+            "entry-point":"DEFAULT"
+          }
+        }, 
+    {
+        "fire-all-rules":""
+    }
+    ]
+}

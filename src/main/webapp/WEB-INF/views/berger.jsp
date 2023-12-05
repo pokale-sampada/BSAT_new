@@ -1,0 +1,1142 @@
+
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="shortcut icon"
+	href="<c:url value='/resources/login_assets/favicon.ico'/>"
+	type="image/x-icon" />
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/css/bootstrap.min.css'/>" />
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/font-awesome/4.2.0/css/font-awesome.min.css'/>" />
+
+<!-- page specific plugin styles -->
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/css/jquery-ui.custom.min.css' />" />
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/css/chosen.min.css' />" />
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/css/datepicker.min.css'/>" />
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/css/bootstrap-timepicker.min.css'/>" />
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/css/daterangepicker.min.css' />" />
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/css/bootstrap-datetimepicker.min.css'/>" />
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/css/colorpicker.min.css' />" />
+
+<!-- page specific plugin styles -->
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/css/bootstrap-duallistbox.min.css' />" />
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/css/bootstrap-multiselect.min.css' />" />
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/css/select2.min.css' />" />
+
+<!-- text fonts -->
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/fonts/fonts.googleapis.com.css' />" />
+
+<!-- ace styles -->
+<link rel="stylesheet"
+	href="<c:url value='/resources/assets/css/ace.min.css'/>"
+	class="ace-main-stylesheet" id="main-ace-style" />
+<script src="<c:url value='/resources/assets/js/ace-extra.min.js'/>"
+	type="text/javascript"></script>
+<link rel="stylesheet"
+	href="<c:url value='resources/slider/bootstrap.min.css'/>" />
+<script src="<c:url value='/resources/slider/jquery.min.js'/>"></script>
+<script src="<c:url value='/resources/slider/bootstrap.min.js'/>"></script>
+
+<script
+	src="<c:url value='/resources/assets/js/bootstrap-multiselect.min.js'/>"
+	type="text/javascript"></script>
+<script src="<c:url value='/resources/assets/js/select2.min.js'/>"
+	type="text/javascript"></script>
+<script
+	src="<c:url value='/resources/assets/js/jquery.bootstrap-duallistbox.min.js'/>"
+	type="text/javascript"></script>
+</head>
+<body>
+<!-- Page-header start -->
+	<div class="page-header"
+		style="background-color: #027BC6; line-height: 2em;">
+		<div class="row align-items-end">
+			<div class="col-lg-8">
+				<div class="page-header-title">
+					<div class="d-inline" style="padding-left: 1em;">
+						<h4 style="color: white;">New User Registration</h4>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="page-header-breadcrumb" style="padding-right: 1em;">
+					<ul class="breadcrumb-title">
+						<li class="breadcrumb-item"><a href="admin"> <i
+								class="feather icon-home"></i>
+						</a></li>
+						<li class="breadcrumb-item"><a href="#!">User Management</a></li>
+						<li class="breadcrumb-item"><a href="#!">User
+								Registration</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+	<form id="Regi" action="NewRegistration" class="form-horizontal"
+		method="post">
+		<div class="card">
+			<div class="card-header">
+				<h5>User Credentials</h5>
+				<div class="card-header-right">
+					<ul class="list-unstyled card-option">
+						<li><i class="feather icon-maximize full-card"></i></li>
+						<li><i class="feather icon-minus minimize-card"></i></li>
+						<li><i class="feather icon-trash-2 close-card"></i></li>
+					</ul>
+				</div>
+			</div>
+			<div class="card-block">
+				<div class="form-group row">
+
+					<div class="col-md-3">
+						<label class="block">User Name<span class="required">*</span></label>
+						<input type="text" name="user_name" id="user_name"
+							pattern="[A-Z,a-z,0-9]{1,25}"
+							title="only number, uppercase and lowercase letters allowed"
+							class="form-control form-control-sm form-control-primary"
+							placeholder="eg.: John Doe" required />
+					</div>
+					<div class="col-md-3">
+						<label class="block">Password <span class="required">*</span></label>
+						<input type="Password" name="password" id="password1"
+							pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}"
+							title="Must contain at least one number, one symbol and one uppercase and lowercase letter, and at least 8 or more characters"
+							class="form-control form-control-sm form-control-primary"
+							placeholder="eg.: John Doe" required />
+					</div>
+					<div class="col-md-3">
+						<label class="block">Confirm Password <span
+							class="required">*</span></label> <input type="Password" name="password1"
+							id="password2" onblur="CheckPassword()"
+							pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}"
+							title="Must contain at least one number, one symbol and one uppercase and lowercase letter, and at least 8 or more characters"
+							class="form-control form-control-sm form-control-primary"
+							placeholder="eg.: John Doe" required />
+					</div>
+
+					<div class="col-md-3">
+						<label class="block" for="inputSuccess">Menu Group</label> <select
+							data-plugin-selectTwo
+							class="form-control form-control-sm form-control-primary populate placeholder"
+							name="menu_group_id" id="menu_group_id" onchange="callMethod()"
+							data-plugin-options='{ "placeholder": "Select a State", "allowClear": true }'
+							required>
+							<option>--Select--</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-3">
+						<label class="block" for="inputSuccess">User Profile <span
+							class="required">*</span>
+						</label> <select data-plugin-selectTwo
+							class="form-control form-control-sm form-control-primary populate placeholder"
+							name="profile_id" id="profile_id"
+							data-plugin-options='{ "placeholder": "Select a State", "allowClear": true }'>
+							<option>--Select--</option>
+						</select>
+						
+					</div>
+
+
+<input type="hidden" id="user_type" name="user_type">
+
+
+<div class="col-md-3" id="activeDiretory">
+	<label class="block" for="inputSuccess">Link Active Directory</label> <select
+		data-plugin-selectTwo
+		class="form-control form-control-sm form-control-primary populate placeholder"
+		name="active_directory_id" id="active_directory_id" array="ADList"
+		data-plugin-options='{ "placeholder": "Select a State", "allowClear": true }'>
+		<option value="">--Select--</option>
+		<c:forEach var="adID" items="${ADList}">
+			<option value="${adID.ad_id}">
+				<c:out value="${adID.ad_id}" />
+			</option>
+		</c:forEach>
+
+	</select>
+</div>
+<div class="col-md-4">
+	<label class="block">User Status</label> <input
+		class="form-control form-control-sm form-control-primary" id="active"
+		type="hidden" name="active" />
+	<div class="form-check form-switch">
+		<input type="checkbox" name="user_status" id="user_status"
+			class="js-primary" data-switchery="true" onchange="CheckUserStatus()" />
+	</div>
+</div>
+
+<div class="form-group row">
+	<div class="col-md-12">
+		<br> <br>
+		<table>
+			<tr>
+				<td><label class="col-sm-6 control-label no-padding-top blue"
+					style="margin-left: 30%; margin-bottom: 5%; margin-top: -5%"
+					for="duallist" id="am"> Available Menu </label></td>
+				<td><label class="col-sm-6 control-label no-padding-top blue"
+					style="margin-left: 50%; margin-bottom: 5%; margin-top: -5%"
+					for="duallist" id="sm"> Selected Menu </label></td>
+
+			</tr>
+			<tr>
+
+				<td><select multiple class="form-control form-control-sm "
+					name="available_menu" id="available_menu" required>
+				</select></td>
+				<td><select multiple class="form-control form-control-sm "
+					name="sel_menu" id="sel_menu" required>
+				</select></td>
+			</tr>
+		</table>
+
+		<table>
+			<tr>
+				<td><label class="col-sm-6 control-label no-padding-top blue"
+					style="margin-left: 30%; margin-bottom: 5%; margin-top: -5%"
+					for="duallist"> Available Menu </label></td>
+				<td><label class="col-sm-6 control-label no-padding-top blue"
+					style="margin-left: 100%; margin-bottom: 5%; margin-top: -5%"
+					for="duallist"> Selected Menu </label></td>
+				<td></td>
+			</tr>
+		</table>
+		<div class="col-sm-12">
+			<select multiple="multiple" size="10" class="dual1"
+				name="appl_menu_multiple_select" id="appl_menu_multiple_select">
+
+			</select>
+		</div>
+
+	</div>
+</div>
+
+</div>
+<div id="deporegion" class="form-group row">
+	<div class="col-md-4">
+		<label class="block">Region<span class="required">*</span></label> <input
+			type="text" name="region_code" id="region_code"
+			class="form-control form-control-sm form-control-primary" />
+	</div>
+	<div class="col-md-4">
+		<label class="block">Distributors Code<span class="required">*</span></label>
+		<input type="text" name="depot_code" id="depot_code"
+			class="form-control form-control-sm form-control-primary" />
+	</div>
+	<div class="col-md-4">
+		<label class="block">Territory Code<span class="required">*</span></label>
+		<input type="text" name="terr_code" id="terr_code"
+			class="form-control form-control-sm form-control-primary" />
+	</div>
+
+</div>
+
+<div id="marketingsuper" class="form-group row">
+	<div class="col-md-6">
+		<label class="block">Marketing Supervisor <span
+			class="required">*</span></label> <input type="text" name="supervisor_id"
+			id="supervisor_id"
+			class="form-control form-control-sm form-control-primary" />
+	</div>
+	<div class="col-md-6">
+		<label class="block">Territory Code<span class="required">*</span></label>
+		<input type="text" name="pmg_ml_group" id="pmg_ml_group"
+			class="form-control form-control-sm form-control-primary" />
+	</div>
+</div>
+<div class="form-group row">
+	<div class="col-md-6" id="start">
+		<spring:bind path="lookup.active_start_date">
+			<label class="block">Start Date <span class="required">*</span></label>
+			<div class="input-group input-append date">
+
+				<input type="text"
+					class="form-control form-control-sm form-control-primary datePicker"
+					id="start_date" data-plugin-datepicker name="start_date"
+					data-date-format="dd-mm-yyyy" onchange="checkattend()" /> <span
+					class="input-group-addon"> <i class="fa fa-calendar"></i>
+				</span>
+			</div>
+		</spring:bind>
+	</div>
+
+	<div class="col-md-6" id="end">
+		<spring:bind path="lookup.active_end_date">
+			<label class="block"> End Date <span class="required">*</span></label>
+			<div class="input-group input-append date" id="datePicker1">
+
+				<input type="text"
+					class="form-control form-control-sm form-control-primary"
+					id="end_date" data-plugin-datepicker name="end_date"
+					data-date-format="dd-mm-yyyy" readonly /> <span
+					class="input-group-addon"> <i class="fa fa-calendar"></i>
+				</span>
+			</div>
+		</spring:bind>
+	</div>
+</div>
+</div>
+</div>
+<div class="card">
+	<div class="card-header">
+		<h5>User Personal Information</h5>
+		<div class="card-header-right">
+			<ul class="list-unstyled card-option">
+				<li><i class="feather icon-maximize full-card"></i></li>
+				<li><i class="feather icon-minus minimize-card"></i></li>
+				<li><i class="feather icon-trash-2 close-card"></i></li>
+			</ul>
+		</div>
+	</div>
+	<div class="card-block">
+		<div class="form-group row">
+			<input name="user_id" id="user_id" type="hidden" />
+			<div class="col-md-4">
+				<label class="block">First Name<span class="required">*</span></label>
+				<input type="text" name="first_name" id="first_name"
+					class="form-control form-control-sm form-control-primary"
+					placeholder="eg.: John" required />
+
+			</div>
+
+			<div class="col-md-4">
+				<label class="block">Middle Name</label> <input type="text"
+					name="middle_name" id="middle_name"
+					class="form-control form-control-sm form-control-primary"
+					placeholder="eg.: Mike" />
+
+			</div>
+
+			<div class="col-md-4">
+				<label class="block">Last Name</label> <input type="text"
+					name="last_name" id="last_name"
+					class="form-control form-control-sm form-control-primary"
+					placeholder="eg.: Doe" />
+
+			</div>
+
+		</div>
+		<div class="form-group row">
+			<div class="col-md-4">
+				<label class="block">Contact Number</label> <input type="text"
+					name="contact_number" id="contact_number"
+					class="form-control form-control-sm form-control-primary"
+					placeholder="eg.: 123" />
+
+			</div>
+			<div class="col-md-4">
+				<label class="block">E-mail Address<span class="required">*</span></label>
+				<input type="text" name="email_address" id="email_address"
+					onblur="validateEmail(this);"
+					class="form-control form-control-sm form-control-primary"
+					placeholder="eg.: JohnDoe@ABC" required />
+
+			</div>
+			<div class="col-md-4"></div>
+
+		</div>
+	</div>
+</div>
+<footer class="panel-footer">
+	<div class="row" style="text-align: center">
+		<div class="col-md-12">
+			<button type="submit" class="btn btn-sm btn-primary"
+				onclick="return confirmValidate()">Submit</button>
+			<button type="reset" class="btn btn-sm btn-default">Reset</button>
+		</div>
+	</div>
+</footer>
+</form>
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+
+
+
+						$(document)
+								.on(
+										'change',
+										'#available_menu',
+										function() {
+											var available_menu = $(
+													'#available_menu').val();
+											var menu = "" + available_menu + "";
+											var selected_menu = $('#sel_menu');
+											$('<option selected>')
+													.val(menu)
+													.text(
+															$(
+																	"#available_menu option:selected")
+																	.text())
+													.appendTo(selected_menu);
+										});
+
+						$(document).on(
+								'change',
+								'#sel_menu',
+								function() {
+									var selected_menu = $('#sel_menu').val();
+									var selected_menu_txt = $(
+											'#available_menu option:selected')
+											.text();
+
+									$('#sel_menu option').each(function() {
+										if ($(this).val() == selected_menu) {
+											$(this).remove();
+										}
+									});
+
+								});
+
+					});
+	function confirmValidate() {
+		if (document.getElementById("active_directory_id").value == ""
+				&& document.getElementById("password1").value == ""
+				&& document.getElementById("password2").value == "") {
+			alert("Please enter password or select Active Directory ID");
+			return false;
+		} else if ((document.getElementById("password1").value == "" && document
+				.getElementById("password2").value != "")
+				|| (document.getElementById("password1").value != "" && document
+						.getElementById("password2").value == "")) {
+			alert("Password doesn't matched");
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	$(window)
+			.load(
+					function() {
+
+						$("#deporegion").hide();
+						$("#marketingsuper").hide();
+						$("#start").hide();
+						$("#end").hide();
+
+						$
+								.ajax({
+									url : '${pageContext.request.contextPath}/loadmenugroupname',
+
+									success : function(data) {
+										var select = $('#menu_group_id');
+										// alert(select);
+										select.find('option').remove();
+										$('<option>').val("")
+												.text("--select--").appendTo(
+														select);
+										$.each(data, function(index, value) {
+											$('<option>').val(
+													value.menu_group_id).text(
+													value.group_name).appendTo(
+													select);
+										});
+
+									}
+								});
+
+						$
+								.ajax({
+									url : '${pageContext.request.contextPath}/loaduserprofile',
+
+									success : function(data) {
+										var select = $('#profile_id');
+										// alert(select);
+										select.find('option').remove();
+										$('<option>').val("")
+												.text("--select--").appendTo(
+														select);
+										$.each(data, function(index, value) {
+											$('<option>').val(value.profile_id)
+													.text(value.profile_name)
+													.appendTo(select);
+										});
+
+									}
+								});
+
+						$
+								.ajax({
+									url : '${pageContext.request.contextPath}/loadregioncode',
+									success : function(data) {
+
+										var select = $('#region_code');
+										select.find('option').remove();
+										$('<option>').val("")
+												.text("--Select--").appendTo(
+														select);
+										$.each(data, function(index, value) {
+
+											$('<option>').val(value)
+													.text(value).appendTo(
+															select);
+
+										});
+
+									}
+								});
+
+						var selectdepo = $('#depot_code');
+						selectdepo.find('option').remove();
+						$('<option>').val("").text("--Select--").appendTo(
+								selectdepo);
+
+						$
+								.ajax({
+									url : '${pageContext.request.contextPath}/loadsupervisor',
+									success : function(data) {
+
+										var select = $('#supervisor_id');
+										select.find('option').remove();
+										$('<option>').val("")
+												.text("--Select--").appendTo(
+														select);
+										$.each(data, function(index, value) {
+
+											$('<option>').val(value.user_id)
+													.text(value.user_name)
+													.appendTo(select);
+
+										});
+
+									}
+								});
+
+						var lovtype = "BLINE_TYPE";
+						$
+								.ajax({
+									url : '${pageContext.request.contextPath}/loadbusinessline',
+									data : ({
+										bline : lovtype
+									}),
+									success : function(data) {
+										var select = $('#pmg_ml_group');
+										select.find('option').remove();
+										$('<option>').val("")
+												.text("--Select--").appendTo(
+														select);
+										$.each(data, function(index, value) {
+											$('<option>').val(value)
+													.text(value).appendTo(
+															select);
+										});
+
+									}
+								});
+
+					});
+
+	// 	window.onload=function()
+	// 	{
+
+	// 	$("#deporegion").hide();
+
+	// 	}
+
+	$('#profile_id')
+			.change(
+					function(event) {
+						var profile_id = $("select#profile_id").val();
+						$("#regn_tsi").hide();
+						if (profile_id != "") {
+
+							$
+									.ajax({
+										url : '${pageContext.request.contextPath}/loadusertype',
+										data : ({
+											profile_id : profile_id
+										}),
+										success : function(data) {
+
+											$('#user_type').val(data);
+
+										}
+									});
+						} else {
+							$('#user_type').val("");
+						}
+
+						if (profile_id == "2" || profile_id == "5"
+								|| profile_id == "1" || profile_id == "12") {
+
+							$
+									.ajax({
+										url : '${pageContext.request.contextPath}/loadsupervisor',
+										success : function(data) {
+
+											var select = $('#supervisor_id');
+											select.find('option').remove();
+											$('<option>').val("").text(
+													"--Select--").appendTo(
+													select);
+											$
+													.each(
+															data,
+															function(index,
+																	value) {
+
+																$('<option>')
+																		.val(
+																				value.user_id)
+																		.text(
+																				value.user_name)
+																		.appendTo(
+																				select);
+
+															});
+
+										}
+									});
+
+							var lovtype = "BLINE_TYPE";
+							$
+									.ajax({
+										url : '${pageContext.request.contextPath}/loadbusinessline',
+										data : ({
+											bline : lovtype
+										}),
+										success : function(data) {
+											var select = $('#pmg_ml_group');
+											select.find('option').remove();
+											$('<option>').val("").text(
+													"--Select--").appendTo(
+													select);
+											$
+													.each(
+															data,
+															function(index,
+																	value) {
+																$('<option>')
+																		.val(
+																				value)
+																		.text(
+																				value)
+																		.appendTo(
+																				select);
+															});
+
+										}
+									});
+
+							$("#marketingsuper").hide();
+
+							$("#deporegion").show();
+
+						} else if (profile_id == "6") {
+
+							var selectdepo = $('#depot_code');
+							selectdepo.find('option').remove();
+							$('<option>').val("").text("--Select--").appendTo(
+									selectdepo);
+
+							$
+									.ajax({
+										url : '${pageContext.request.contextPath}/loadregioncode',
+										success : function(data) {
+
+											var select = $('#region_code');
+											select.find('option').remove();
+											$('<option>').val("").text(
+													"--Select--").appendTo(
+													select);
+											$
+													.each(
+															data,
+															function(index,
+																	value) {
+
+																$('<option>')
+																		.val(
+																				value)
+																		.text(
+																				value)
+																		.appendTo(
+																				select);
+
+															});
+
+										}
+									});
+
+							$("#marketingsuper").show();
+
+							$("#deporegion").hide();
+
+						} else {
+
+							var selectdepo = $('#depot_code');
+							selectdepo.find('option').remove();
+							$('<option>').val("").text("--Select--").appendTo(
+									selectdepo);
+
+							$
+									.ajax({
+										url : '${pageContext.request.contextPath}/loadregioncode',
+										success : function(data) {
+
+											var select = $('#region_code');
+											select.find('option').remove();
+											$('<option>').val("").text(
+													"--Select--").appendTo(
+													select);
+											$
+													.each(
+															data,
+															function(index,
+																	value) {
+
+																$('<option>')
+																		.val(
+																				value)
+																		.text(
+																				value)
+																		.appendTo(
+																				select);
+
+															});
+
+										}
+									});
+
+							$
+									.ajax({
+										url : '${pageContext.request.contextPath}/loadsupervisor',
+										success : function(data) {
+
+											var select = $('#supervisor_id');
+											select.find('option').remove();
+											$('<option>').val("").text(
+													"--Select--").appendTo(
+													select);
+											$
+													.each(
+															data,
+															function(index,
+																	value) {
+
+																$('<option>')
+																		.val(
+																				value.user_id)
+																		.text(
+																				value.user_name)
+																		.appendTo(
+																				select);
+
+															});
+
+										}
+									});
+
+							var lovtype = "BLINE_TYPE";
+							$
+									.ajax({
+										url : '${pageContext.request.contextPath}/loadbusinessline',
+										data : ({
+											bline : lovtype
+										}),
+										success : function(data) {
+											var select = $('#pmg_ml_group');
+											select.find('option').remove();
+											$('<option>').val("").text(
+													"--Select--").appendTo(
+													select);
+											$
+													.each(
+															data,
+															function(index,
+																	value) {
+																$('<option>')
+																		.val(
+																				value)
+																		.text(
+																				value)
+																		.appendTo(
+																				select);
+															});
+
+										}
+									});
+
+							$("#marketingsuper").hide();
+							$("#deporegion").hide();
+						}
+
+						if (profile_id == "5") {
+							$("#regn_depo").hide();
+						}
+						if (profile_id == "12") {
+							$("#regn_depo").show();
+							$("#regn_tsi").show();
+						}
+					});
+
+	$('#region_code').change(
+			function(event) {
+				var region_code = $("select#region_code").val();
+				$.ajax({
+					url : '${pageContext.request.contextPath}/loaddepotcode',
+					data : ({
+						region_code : region_code
+					}),
+					success : function(data) {
+
+						var select = $('#depot_code');
+						select.find('option').remove();
+						$('<option>').val("").text("--Select--").appendTo(
+								select);
+						$.each(data, function(index, value) {
+
+							$('<option>').val(value.depot_code).text(
+									value.depot_name).appendTo(select);
+
+						});
+
+					}
+				});
+
+			});
+
+	$('#depot_code').change(
+			function(event) {
+				var profile_id = $("select#profile_id").val();
+				var region_code = $("select#region_code").val();
+				var depot_code = $("select#depot_code").val();
+				$.ajax({
+					url : '${pageContext.request.contextPath}/loadtsicode',
+					data : ({
+						depot_code : depot_code
+					}),
+					success : function(data) {
+
+						var select = $('#terr_code');
+						select.find('option').remove();
+						$('<option>').val("").text("--Select--").appendTo(
+								select);
+						$.each(data, function(index, value) {
+
+							$('<option>').val(value.terr_code).text(
+									value.terr_name).appendTo(select);
+
+						});
+
+					}
+				});
+
+			});
+	$('#user_name').blur(function() {
+		var UserName = $('#user_name').val();
+		$.ajax({
+			url : '${pageContext.request.contextPath}/FindUserPresence',
+			data : ({
+				UserName : UserName
+			}),
+			success : function(data) {
+
+				var r;
+
+				if (data.name != null) {
+
+					//alert("This User Name is already exist, Please give uniqe username")
+
+					// 												if (data.name != null) {
+					// 													r = confirm("This User Name is already exist, Do you Want to Update?");
+					// 												}
+					//alert("This UserName is already present, Do you Want to Update");
+					// var r = confirm("This UserName is already present, Do you Want to Update");
+					// 												if (r == true) {
+
+					// 													document
+					// 															.getElementById("user_name").value = UserName;
+					// 													document
+					// 															.getElementById("user_id").value = data.user_id;
+					// 													document
+					// 															.getElementById("password1").value = data.password;
+					// 													document
+					// 															.getElementById("password2").value = data.password;
+					// 													var v = data.userstatus;
+					// 													//alert(data.userstatus)
+					// 													if (v == 'Y') {
+					// 														//document.getElementById("user_status").value=data.password;
+					// 														document
+					// 																.getElementById("user_status").checked = true;
+					// 													} else if (v == 'N') {
+					// 														document
+					// 																.getElementById("user_status").checked = false;
+					// 													}
+					// 													//alert(v);
+					// 													document
+					// 															.getElementById("user_status").value = v;
+
+					// // 													document
+					// // 															.getElementById("user_role").value = data.user_role;
+					// 													if(data.start_date != null){
+					// 													document
+					// 															.getElementById("start_date").value = data.start_date;
+					// 													}
+					// 													if(data.end_date != null){
+					// 													document
+					// 															.getElementById("end_date").value = data.end_date;
+					// 													}
+					// 													if(data.first_name != null){
+					// 													document
+					// 															.getElementById("first_name").value = data.first_name;
+					// 													}
+					// 													if(data.middle_name != null){
+					// 													document
+					// 															.getElementById("middle_name").value = data.middle_name;
+					// 													}
+					// 													if(data.last_name != null){
+					// 													document
+					// 															.getElementById("last_name").value = data.last_name;
+					// 													}
+					// 													if(data.contact_number != null){
+					// 													document
+					// 															.getElementById("contact_number").value = data.contact_number;
+					// 													}
+					// 													if(data.email_address != null){
+					// 													document
+					// 															.getElementById("email_address").value = data.email_address;
+					// 													}
+					// 													if(data.profile_id != 0){
+					// 													document
+					// 															.getElementById("profile_id").value = data.profile_id;
+					// 													}
+					// 													if(data.user_type != null){
+					// 													document
+					// 														.getElementById("user_type").value = data.user_type;
+					// 													}
+
+					// 													$('#test').val("Y");
+
+					// 												} else {
+
+					// 													var aa = $('#test')
+					// 															.val("N");
+					document.getElementById("user_name").value = "";
+					//alert(aa);
+					//alert("User is not Available Please Create new user");
+					// 												}
+
+				}
+
+			}
+		});
+	});
+</script>
+
+
+
+<script>
+
+$('#menu_group_id')
+.on(
+		'change',
+		function(e) {
+
+			var optionSelected = $(
+					"option:selected", this);
+			var valueSelected = this.value;
+			$
+					.ajax({
+						url : '/testmenu',
+						data : ({
+							name : valueSelected
+						}),
+						success : function(data) {
+
+							//var multi_select_menu = $('select[name="appl_menu_multiple_select"]').bootstrapDualListbox();
+							/* var demo1 = $('[name=appl_menu_multiple_select]').bootstrapDualListbox();
+							var container1 = demo1.bootstrapDualListbox('getContainer');
+							container1.find('.btn').addClass('btn-white btn-info btn-bold');
+							
+							 $.each(data, function(index, value) {
+							
+								$('<option>').val(value.menu_header_id).text(value.header_name).appendTo(select);
+							});
+							 demo1.bootstrapDualListbox('refresh', true);  */
+
+							var select = $('#available_menu');
+							select.find(
+									'option')
+									.remove();
+							$('<option>')
+									.val("")
+									.text(
+											"--select--")
+									.appendTo(
+											select);
+							$
+									.each(
+											data,
+											function(
+													index,
+													value) {
+												$(
+														'<option>')
+														.val(
+																value.menu_header_id)
+														.text(
+																value.header_name)
+														.appendTo(
+																select);
+											});
+
+						}
+					});
+		});
+
+
+function callMethod() {
+
+	var name1 = $("select#menu_group_id").val();
+	$
+			.ajax({
+				url : '${pageContext.request.contextPath}/testmenu',
+				data : ({
+					name : name1
+				}),
+				success : function(data) {
+					alert("onchange is runninbg");
+					var select = $('select[name="appl_menu_multiple_select"]');
+					var multi_select_menu = $('select[name="appl_menu_multiple_select"]').bootstrapDualListbox();
+					var container1 = multi_select_menu.bootstrapDualListbox('getContainer');
+					container1.find('.btn').addClass('btn-white btn-info btn-bold');
+					alert("Coming ");
+					$.each(data, function(index, value) {
+						$('<option>').val(value.menu_header_id).text(
+								value.header_name).appendTo(select);
+					});
+					multi_select_menu.bootstrapDualListbox('refresh', true);
+
+				}
+			});
+}
+</script>
+
+<script type="text/javascript">
+	function CheckPassword() {
+		var pass1 = $('#password1').val();
+		var pass2 = $('#password2').val();
+
+		if (pass1 == pass2) {
+			document.getElementById("password2").style.borderColor = "#C0C0C0";
+		} else {
+			alert("Password doesn't Not Match ");
+			document.getElementById("password2").style.borderColor = "#FF0000";
+			document.getElementById("password2").value = "";
+		}
+	}
+
+	function CheckUserStatus() {
+
+		if (document.getElementById("user_status").checked == true) {
+			document.getElementById("active").value = 'Y';
+
+			//	alert(document.getElementById("user_status").value );
+		} else if (document.getElementById("user_status").checked == false) {
+			document.getElementById("active").value = 'N';
+			//	alert(document.getElementById("user_status").value );
+		}
+	}
+</script>
+<script>
+	$(document).ready(function() {
+		//alert("working======== ");		
+		var a = document.getElementById("").value;
+		alert("======" + a);
+		if (document.getElementById("active").value == 'Y') {
+			document.getElementById("user_status").checked = true;
+
+			//	alert(document.getElementById("user_status").value );
+		} else if (document.getElementById("active").value == 'N') {
+			document.getElementById("user_status").checked = false;
+			//	alert(document.getElementById("user_status").value );
+		}
+
+	});
+</script>
+
+<script type="text/javascript" language="javascript">
+	function validateEmail(emailField) {
+		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+		if (reg.test(emailField.value) == false) {
+			alert('Invalid Email Address');
+			document.getElementById("email_address").value = "";
+			return false;
+		}
+
+		return true;
+	}
+</script>
+<script>
+	var a = new Date().getDate();
+	var a1 = a.toString();
+	var b = new Date().getMonth() + 1;
+	var b1 = b.toString();
+	var c = new Date().getFullYear();
+	var c1 = c.toString();
+
+	var q = "-";
+	var d = a1.concat(q);
+	var d1 = d.concat(b1);
+	var d2 = d1.concat(q);
+	var sysdate = d2.concat(c1);
+
+	$('#datePicker').datepicker({
+		format : 'dd-mm-yyyy',
+		startDate : sysdate,
+	// 			endDate : sysdate
+
+	}).on('changeDate', function(e) {
+		// Revalidate the date field
+		$('#eventForm').formValidation('revalidateField', 'date');
+	});
+
+	$('#datePicker1').datepicker({
+		format : 'dd-mm-yyyy',
+		startDate : sysdate
+
+	}).on('changeDate', function(e) {
+		// Revalidate the date field
+		$('#eventForm').formValidation('revalidateField', 'date');
+	});
+</script>
+
+
+
+
+
+</body>
+</html>

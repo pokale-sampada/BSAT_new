@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="header"
+		template="/WEB-INF/views/header.jsp">
+		<put-attribute name="body"
+			value="/WEB-INF/views/header.jsp" />
+	</definition>
+	<definition name="bsat.layout"
+		template="/WEB-INF/views/layout.jsp">
+		<put-attribute name="body"
+			value="/WEB-INF/views/layout.jsp" />
+	</definition>
+	<definition name="bsat.definition"
+		template="/WEB-INF/views/layout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/header.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/menu.jsp" />
+		<put-attribute name="body" value="" />
+	</definition>
+	<definition name="formwizard.definition"
+		template="/WEB-INF/views/formwizard.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/header.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/menu.jsp" />
+		<put-attribute name="body" value="" />
+	</definition>
+	<definition name="datatables.definition"
+		template="/WEB-INF/views/datatables.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/header.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/menu.jsp" />
+		<put-attribute name="body" value="" />
+	</definition>
+	<definition name="sample.definition"
+		template="/WEB-INF/views/sampledef.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/header.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/menu.jsp" />
+		<put-attribute name="body" value="" />
+	</definition>
+	<definition name="welcome" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/welcome.jsp" />
+	</definition>
+	<definition name="login"
+		template="/WEB-INF/views/generalviews/login.jsp">
+		<put-attribute name="title" value="BSAT LOGIN" />
+	</definition>
+	<definition name="trial"
+		template="/WEB-INF/views/trial.jsp">
+		<put-attribute name="trial" value="" />
+	</definition>
+	<definition name="itdashboard" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/dashboard/itdashboard.jsp" />
+	</definition>
+	<definition name="dealerdashboard" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/dashboard/dealerdashboard.jsp" />
+	</definition>
+	<definition name="depodashboard" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/dashboard/depodashboard.jsp" />
+	</definition>
+	<definition name="regiondashboard" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/dashboard/regiondashboard.jsp" />
+	</definition>
+	<definition name="TSIdashboard" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/dashboard/TSIdashboard.jsp" />
+	</definition>
+	<definition name="admindashboard" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/dashboard/admindashboard.jsp" />
+	</definition>
+	<definition name="marketingdashboard" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/dashboard/marketingdashboard.jsp" />
+	</definition>
+	<definition name="supervisordashboard" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/dashboard/supervisordashboard.jsp" />
+	</definition>
+	<definition name="br_approver" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/dashboard/br_approver.jsp" />
+	</definition>
+	<definition name="rg_approver" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/dashboard/rg_approver.jsp" />
+	</definition>
+	<definition name="na_approver" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/dashboard/na_approver.jsp" />
+	</definition>
+	<definition name="hq_approver" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/dashboard/hq_approver.jsp" />
+	</definition>
+	
+	<!-- Gridview Definations -->
+	
+	<definition name="AdjustDepoReward" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/AdjustDepoReward.jsp" />
+	</definition>
+	<definition name="AdjustReward" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/AdjustReward.jsp" />
+	</definition>
+	<definition name="AdjustRewardApprove" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/AdjustRewardApprove.jsp" />
+	</definition>
+	<definition name="AdjustRewardDetails" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/AdjustRewardDetails.jsp" />
+	</definition>
+	<definition name="Approval_Scheme" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/Approval_Scheme.jsp" />
+	</definition>
+	<definition name="BranchMaster" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/BranchMaster.jsp" />
+	</definition>
+	<definition name="BudgetVsActualReport" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/BudgetVsActualReport.jsp" />
+	</definition>
+	<definition name="CopySchemeMaster" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/CopySchemeMaster.jsp" />
+	</definition>
+	<definition name="CustomerSchAnalysisReport" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/CustomerSchAnalysisReport.jsp" />
+	</definition>
+	<definition name="DealerWhatIf" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/DealerWhatIf.jsp" />
+	</definition>
+	<definition name="DepoCustomerSchAnalysisReport" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/depoCustomerSchAnalysisReport.jsp" />
+	</definition>
+	<definition name="DepoRewardAnalysisReport" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/DepoRewardAnalysisReport.jsp" />
+	</definition>
+	<definition name="depoSchemeAnalysis" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/depoSchemeAnalysis.jsp" />
+	</definition>
+	<definition name="depoSchemeAnalysisReport" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/depoSchemeAnalysisReport.jsp" />
+	</definition>
+	<definition name="Fin_Year" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/FinYear.jsp" />
+	</definition>
+	<definition name="GiftCountReport" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/GiftCountReport.jsp" />
+	</definition>
+	<definition name="HistoricalRewards" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/HistoricalRewards.jsp" />
+	</definition>
+	<definition name="LaunchScheme" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/LaunchScheme.jsp" />
+	</definition>
+	<definition name="LookUpGrid" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/LookUpGrid.jsp" />
+	</definition>
+	<definition name="LookUpType" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/LookUpType.jsp" />
+	</definition>
+	<definition name="LookUpType1" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/LookUpType1.jsp" />
+	</definition>
+	<definition name="MaxLifeAgents" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/MaxLifeAgents.jsp" />
+	</definition>
+	<definition name="MaxLifeRDCSchemeAnalysis" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/MaxLifeRDCSchemeAnalysis.jsp" />
+	</definition>
+	<definition name="MaxLifeSchemeAnalysis" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/MaxLifeSchemeAnalysis.jsp" />
+	</definition>
+	<definition name="MISReportDetails" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/MISReportDetails.jsp" />
+	</definition>
+	<definition name="MISReportSP" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/MISReportSP.jsp" />
+	</definition>
+	<definition name="MISReport" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/MISReport.jsp" />
+	</definition>
+	<definition name="New_Fin_Year" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/NewFinYear.jsp" />
+	</definition>
+	<definition name="NewRegionMaster" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/NewRegionMaster.jsp" />
+	</definition>
+	<definition name="Pending_Scheme" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/Pending_Scheme.jsp" />
+	</definition>
+	<definition name="PendingITSchemeApproval" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/PendingITSchemeApproval.jsp" />
+	</definition>
+	<definition name="PendingSchemeApproval" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/PendingSchemeApproval.jsp" />
+	</definition>
+	<definition name="RegionMaster" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/RegionMaster.jsp" />
+	</definition>
+	<definition name="regnSchemeAnalysis" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/regnSchemeAnalysis.jsp" />
+	</definition>
+	<definition name="RegnSchemeAnalysisReport" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/RegnSchemeAnalysisReport.jsp" />
+	</definition>
+	<definition name="ReviewScheme" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/ReviewScheme.jsp" />
+	</definition>
+	<definition name="RewardAnalysis" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/RewardAnalysis.jsp" />
+	</definition>
+	<definition name="RewardAnalysisReport" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/RewardAnalysisReport.jsp" />
+	</definition>
+	<definition name="RewardProcessingException" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/RewardProcessingException.jsp" />
+	</definition>
+	<definition name="RewardProcessingRequest" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/RewardProcessingRequest.jsp" />
+	</definition>
+	<definition name="RuleLirary" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/RuleLibrary.jsp" />
+	</definition>
+	<definition name="SalesSchemeAnalysis" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/SalesSchemeAnalysis.jsp" />
+	</definition>
+	<definition name="SalesSchemeAnalysis1" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/SalesSchemeAnalysis1.jsp" />
+	</definition>	
+	<definition name="SalesSchemeAnalysis3" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/SalesSchemeAnalysis3.jsp" />
+	</definition>
+	<definition name="SchemeAnalysis" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/SchemeAnalysis.jsp" />
+	</definition>
+	<definition name="SchemeAnalysisException" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/SchemeAnalysisException.jsp" />
+	</definition>
+	<definition name="SchemeAnalysisReport" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/SchemeAnalysisReport.jsp" />
+	</definition>
+	<definition name="SchemeAnalysisRequest" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/SchemeAnalysisRequest.jsp" />
+	</definition>
+	<definition name="SchemeHistory" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/SchemeHistory.jsp" />
+	</definition>
+	<definition name="SchemeITHistory" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/SchemeITHistory.jsp" />
+	</definition>
+	<definition name="SchemeMaster" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/SchemeMaster.jsp" />
+	</definition>
+	<definition name="SchemeRewardClose" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/SchemeRewardClose.jsp" />
+	</definition>
+	<definition name="SchemeRewardFreeze" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/SchemeRewardFreeze.jsp" />
+	</definition>
+	<definition name="schemerewardgrid" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/schemerewardgrid.jsp" />
+	</definition>
+	<definition name="trial1" extends="sample.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/trial1.jsp" />
+	</definition>
+	<definition name="TSIUserSchemeAnalysis" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/TSIUserSchemeAnalysis.jsp" />
+	</definition>
+	<definition name="UserMaster" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/UserProfileMaster.jsp" />
+	</definition>
+	<definition name="VodafoneSchemeAnalysis" extends="datatables.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/gridviews/VodafoneSchemeAnalysis.jsp" />
+	</definition>
+	
+	<!-- Formview Definitions -->
+	
+	<definition name="CopySchemeDetails" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/CopySchemeDetails.jsp" />
+	</definition>
+	<definition name="Dealer_scheme_Details" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/Dealer_scheme_Details.jsp" />
+	</definition>
+	<definition name="BudgetManagment" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/BudgetManagment.jsp" />
+	</definition>
+	<definition name="HistoryDetails" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/HistoryDetails.jsp" />
+	</definition>
+	<definition name="IT_SchemeDetails" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/IT_SchemeDetails.jsp" />
+	</definition>
+	<definition name="ITSchemeRequest" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/ITSchemeRequest.jsp" />
+	</definition>
+	<definition name="MaxLifeAgentsDetails" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/MaxLifeAgentDetails.jsp" />
+	</definition>
+	<definition name="NewSchemeReward" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/NewSchemeReward.jsp" />
+	</definition>
+	<definition name="PendingSchemeAprDetails" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/PendingSchemeAprDetails.jsp" />
+	</definition>
+	<definition name="PrdOutCalci" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/PrdOutCalci.jsp" />
+	</definition>
+	<definition name="PrimaryFinancialAnalysism" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/PrimaryFinancialAnalysism.jsp" />
+	</definition>
+	<definition name="ReviewSchemeDetails" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/ReviewSchemeDetails.jsp" />
+	</definition>
+	<definition name="SchemeCancel" extends="bsat.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/SchemeCancel.jsp" />
+	</definition>
+	<definition name="SchemeRequest" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/SchemeRequest.jsp" />
+	</definition>
+	<definition name="SchemeDetails" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/SchemeDetails.jsp" />
+	</definition>
+	<definition name="SchemeInterface" extends="formwizard.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/views/formviews/SchemeInterface.jsp" />
+	</definition>
+</tiles-definitions>

@@ -1,0 +1,189 @@
+
+<%@ page import="java.util.Date"%>
+<section role="main" class="content-body">
+	<header class="page-header">
+		<h2></h2>
+		<div class="right-wrapper pull-right">
+			<ol class="breadcrumbs">
+				<li><a href="admin"> <i class="fa fa-home"></i>
+				</a></li>
+				<li><span><a href="menugroupgrid">System Setups</a></span></li>
+				<li><span><a href="menugroupgrid">Menu Group</a></span></li>
+				 <li><span>Add Menu Group</span></li>
+			</ol>
+
+			<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
+		</div>
+	</header>
+
+	<!-- start: page -->
+	<div class="row">
+		<div class="col-md-12">
+			<form class="form-horizontal form-field" role="form"
+				action="save_menugroup" ModelAttribute="Bpil_MenuGroup"
+				method="post">
+				<section class="panel">
+					<header class="panel-heading">
+						<div class="panel-actions">
+							<!-- <a href="#" class="fa fa-caret-down"></a> -->
+							<!--  <a href="#"
+								class="fa fa-times"></a> -->
+						</div>
+
+						<h2 class="panel-title">Menu Group</h2>
+
+					</header>
+					<div class="panel-body">
+						<div class="form-group">
+							<input type="hidden" id="menu_group_id" name="menu_group_id"
+								value="${JSON.menu_group_id}" />
+							<div class="col-md-12">
+							<div class="col-md-4">
+
+								<label class="control-label"> Menu Group Name <span
+									class="required">*</span></label> <input class="form-control"
+									id="group_name" type="text" name="group_name"
+									value="${JSON.group_name}" required />
+
+							</div>
+							<div class="col-md-4">
+
+								<label class="control-label"> Menu Group Description<span
+									class="required">*</span></label> <input class="form-control"
+									id="group_description" type="text" name="group_description"
+									value="${JSON.group_description}" required />
+							</div>
+							<div class="col-md-4">
+
+								<label class="control-label"> Start Date</label>
+								<div class="input-group input-append date" id="datePicker1">
+									<input class="form-control datePicker" data-plugin-datepicker
+										id="group_start_date" data-date-format="dd-mm-yyyy"
+										value="${JSON.group_start_date1}" name="group_start_date"
+										type="text" readonly /> <span class="input-group-addon">
+										<i class="fa fa-calendar bigger-110"></i>
+									</span>
+								</div>
+
+							</div>
+							
+							</div>
+							
+							<div class="col-md-12">
+							<div class="col-md-4">
+								<label class="control-label"> End Date</label>
+								<div class="input-group input-append date" id="datePicker2">
+									<input class="form-control datePicker" data-plugin-datepicker
+										data-date-format="dd-mm-yyyy" id="group_end_date"
+										value="${JSON.group_end_date1}" name="group_end_date"
+										type="text" readonly /> <span class="input-group-addon">
+										<i class="fa fa-calendar bigger-110"></i>
+									</span>
+								</div>
+							</div>
+							
+							<div class="col-md-4">
+								 <input class="form-control"
+									id="active" type="hidden" name="active" value="${JSON.active}" />
+									<label class="control-label">Active</label>
+								<div class="switch switch-primary">
+									<input name="activecheck" id="activecheck"
+										data-plugin-ios-switch type="checkbox" 
+										onchange="CheckMenuGroupStatus()"/>
+								</div>
+								<span class="lbl"></span>
+							</div>
+							<div class="col-md-4"></div>
+							</div>
+						</div>
+					</div>
+
+				</section>
+				<footer class="panel-footer">
+					<div class="row" style="text-align: center">
+						<div class="col-sm-12">
+							<button type="submit" class="btn btn-primary mb-md">Save</button>
+							<button type="button" class="btn btn-primary mb-md" onclick="Previouspage()">Back</button>
+						</div>
+					</div>
+				</footer>
+			</form>
+		</div>
+		<!-- col-md-6 -->
+	</div>
+
+</section>
+<script src="resources/newportal/vendor/jquery/jquery.js"></script>
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+<script>
+	function CheckMenuGroupStatus() {
+		if (document.getElementById("activecheck").checked == true) {
+			document.getElementById("active").value = 'Y';
+		} 
+		else
+		{
+			document.getElementById("active").value = 'N';
+		}
+	}
+</script>
+<script>
+
+function Previouspage(){
+	window.location.href = "menugroupgrid";
+}
+
+</script>
+<!-- <script>	  
+				
+				    var a=new Date().getDate();
+				    var a1=a.toString();
+				    var b=new Date().getMonth()+1;
+				    var b1=b.toString();
+				    var c=new Date().getFullYear();
+				    var c1=c.toString();
+				
+				    var q="-";
+				    var d=a1.concat(q);
+				    var d1=d.concat(b1);
+				    var d2=d1.concat(q);
+				    var sysdate=d2.concat(c1);
+				
+				$('#datePicker1')
+				    .datepicker({
+				        format: 'dd-mm-yyyy',
+				         startDate: sysdate
+				         
+				    })
+				     .on('changeDate', function(e) {
+				         // Revalidate the date field
+				         $('#eventForm').formValidation('revalidateField', 'date');
+				    });
+				
+				$('#datePicker2')
+                .datepicker({
+
+
+                    format: 'dd-mm-yyyy',
+                     startDate: sysdate
+                     
+                })
+                 .on('changeDate', function(e) {
+                     // Revalidate the date field
+						$('#eventForm').formValidation('revalidateField', 'date');
+                });
+				
+		</script>
+ -->
+ <script>
+	$(document).ready(function() {
+
+		var active = document.getElementById("active").value;
+		if (active == 'Y') {
+			$("#activecheck").prop("checked", true);
+		} else {
+			$("#activecheck").prop("checked", false);
+			document.getElementById("active").value = 'N';
+		}
+	});
+</script>

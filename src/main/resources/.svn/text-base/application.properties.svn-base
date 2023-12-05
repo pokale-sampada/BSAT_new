@@ -1,0 +1,20 @@
+server.port=8085
+spring.mvc.view.prefix: /WEB-INF/views/
+spring.mvc.view.suffix: .jsp
+
+# Oracle settings
+#spring.datasource.url=jdbc:oracle:thin:@106.201.234.246:1521:xe
+spring.datasource.url=jdbc:oracle:thin:@103.109.13.198:1521:xe
+#spring.datasource.url=jdbc:oracle:thin:@10.0.0.27:1521:xe
+spring.datasource.username=BSATV2
+spring.datasource.password=BSATV2
+spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+
+hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
+hibernate.show_sql=true	
+hibernate.format_sql=true6
+
+# logging
+logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n
+logging.level.org.hibernate.SQL=debug
+

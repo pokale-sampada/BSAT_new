@@ -1,0 +1,40 @@
+package com.omfys.bsat.model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "BPIL_REGION_MASTER")
+public class Bpil_Region_Master implements Serializable {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "region_seq")
+	@SequenceGenerator(name = "region_seq", sequenceName = "BPIL_REGION_SEQ", allocationSize = 1)
+
+	@Column(name = "REG_ID")
+	private int region_id;
+
+	@Column(name = "REGION_CODE")
+	private String region_code;
+
+	@Column(name = "REGION_NAME")
+	private String region_name;
+
+	@Column(name = "IS_ACTIVE")
+	private String is_active;
+	
+	@Column(name = "HEADQUARTER_ID")
+	private int headquarter_id;
+	
+
+}

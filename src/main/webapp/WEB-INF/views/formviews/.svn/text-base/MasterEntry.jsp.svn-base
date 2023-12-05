@@ -1,0 +1,157 @@
+<section role="main" class="content-body">
+	<header class="page-header">
+		<h2></h2>
+
+		<div class="right-wrapper pull-right">
+			<ol class="breadcrumbs">
+				<li><a href="admin"> <i class="fa fa-home"></i>
+				</a></li>
+				<li><span><span>System Setups</span></span></li>
+				<li><span><span>Master Entry</span></span></li>
+			</ol>
+
+			<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
+		</div>
+	</header>
+	<!-- start: page -->
+	
+			<form class="form-horizontal form-field" role="form" id="upload"
+				action="uploadMasterEntry" enctype="multipart/form-data">
+				<div class="form-group">
+				<section class="panel panel">
+					<header class="panel-heading">
+						<div class="panel-actions">
+							<!-- <a href="#" class="fa fa-caret-down"></a> --><!--  <a href="#"
+								class="fa fa-times"></a> -->
+						</div>
+						<h6 class="panel-title">Product
+								Master Table Entry</h6>
+						<div></div>
+					</header>
+					<div class="panel-body">
+
+						
+							<%-- <input type="hidden" id="branch_id" name="branch_id" />
+			  
+				<div class="col-md-4">
+				<label class="control-label formmodifiedLable" for="inputDefault">Fin Year</label>
+					<input type="text" name="fin_year" id="fin_year" value="${JSON.fin_year}" class="form-control" required />
+
+				</div> --%>
+                          
+								<div class="row">
+								<div class="col-md-12">
+									<div class="col-md-3"></div>
+									<div class="col-md-3">
+										<input type="button" class="btn btn-primary mb-md" id="prd"
+											value="Download Template" onclick="downloadProductMaster()">
+									</div>
+
+									 <div class="col-md-5"> 
+									 <input type="file" name="productdoc" id="prd" value="Upload"
+										onclick="searchinfo()">
+										
+										
+													<!-- <div class="fileupload fileupload-new" data-provides="fileupload">
+														<div class="input-append">
+															<div class="uneditable-input">
+																<i class="fa fa-file fileupload-exists"></i>
+																<span class="fileupload-preview"></span>
+															</div>
+															<span class="btn btn-default btn-file">
+																<span class="fileupload-exists">Change</span>
+																<span class="fileupload-new">Select file</span>
+																<input type="file" />
+															</span>
+															<a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>
+														</div>
+													</div> -->
+										
+										
+										
+									 </div>
+														
+										
+									<!-- </div> -->
+									 <div class="col-md-1"></div>
+								</div>
+							</div></div></section>
+
+							<section class="panel panel">
+					<header class="panel-heading">
+						<div class="panel-actions">
+							<a href="#" class="fa fa-caret-down"></a> <!-- <a href="#"
+								class="fa fa-times"></a> -->
+						</div>
+						<h6 class="panel-title">Dealer
+								Master Table Entry</h6>
+						<div></div>
+					</header>
+					<div class="panel-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="col-md-3"></div>
+									<div class="col-md-3">
+										<input type="button" class="btn btn-primary mb-md" id="prd"
+											value="Download Template" onclick="downloadDealerMaster()">
+									</div>
+
+									<div class="col-md-3">
+										<input type="file" name="dealerdoc" id="prd" value="Upload"
+											onclick="searchinfo()">
+									</div>
+									<div class="col-md-3"></div>
+								</div>
+							</div></div></section>
+
+							<section class="panel panel">
+					<header class="panel-heading">
+						<div class="panel-actions">
+							<a href="#" class="fa fa-caret-down"></a> <!-- <a href="#"
+								class="fa fa-times"></a> -->
+						</div>
+						<h6 class="panel-title">Transaction Master Table
+								Entry</h6>
+						<div></div>
+					</header>
+					<div class="panel-body">
+							<div class="row">
+							<div class="col-md-12">
+								<div class="col-md-3"></div>
+								<div class="col-md-3">
+									<input type="button" class="btn btn-primary mb-md" id="prd"
+										value="Download Template" onclick="downloadTransactionMaster()">
+								</div>
+
+								<div class="col-md-3">
+									<input type="file" name="transactiondoc" id="prd"
+										value="Upload" onclick="searchinfo()">
+								</div>
+								<div class="col-md-3"></div>
+							</div>
+						</div>
+						</div></section>
+					</div>
+		<footer class="panel-footer">
+			<div class="row" style="text-align: center">
+				<div class="col-sm-12">
+					<input type="submit" value="Upload Documents"
+						class="btn btn-primary mb-md" />
+				</div>
+			</div>
+		</footer>
+</form>
+</section>
+<script>
+	function downloadDealerMaster() {
+		window.location.href = "downloadDealerMaster";
+	}
+
+	function downloadProductMaster() {
+		window.location.href = "downloadProductMaster";
+	}
+
+	function downloadTransactionMaster() {
+		window.location.href = "downloadTransactionMaster";
+	}
+</script>

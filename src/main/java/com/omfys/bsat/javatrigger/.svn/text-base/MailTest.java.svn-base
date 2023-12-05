@@ -1,0 +1,76 @@
+package com.omfys.bsat.javatrigger;
+
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+public class MailTest {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+//		String host = "bpilexchange.bergerindia.com";
+		String host = "bpilhombx01.bergerindia.com";
+//		final String user = "erpsupport@bergerindia.com";// change accordingly
+//		final String password = "berger@123";// change accordingly
+
+//		final String user = "hosystems@bergerindia.com";// change accordingly
+//		final String password = "Pass@123";// change accordingly
+
+//		final String user = "networksupport@bergerindia.com";// change accordingly
+//		final String password = "berger@123";// change accordingly
+
+		
+//		final String user = "mailsupport@bergerindia.com";// change accordingly
+//		final String password = "berger@123";// change accordingly
+		
+		final String user = "opaadmin@bergerindia.com";// change accordingly
+		final String password = "berger@123";// change accordingly
+
+		String to = "pratiksoni@omfysgroup.com";
+		System.out.println("to "+to);
+		//String randomno1 = no;
+		//String fname = fnam;
+		// Get the session object
+		Properties props = new Properties();
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.auth", "true");
+
+		Session session1 = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(user, password);
+			}
+		});
+
+		// Compose the message
+		try {
+			System.out.println("subject Test");
+			MimeMessage message = new MimeMessage(session1);
+			message.setFrom(new InternetAddress(user));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			message.setSubject("Test");
+			message.setContent("<h5 style='color:blue'>Hello Sir</h5>" + "\n" + "\n "
+					+ "\n	This mail is for notify you that there is one new scheme have created by  ", "text/html");
+			// send the message
+			
+			String emailBody = "Body";
+			System.out.println("emailbody "+emailBody);
+
+			message.setText(emailBody);
+			System.out.println("before mail send");
+			Transport.send(message);
+
+			System.out.println("message sent successfully...");
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
+
+}

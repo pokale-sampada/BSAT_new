@@ -1,0 +1,182 @@
+
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<section role="main" class="content-body">
+	<div class="page-header"
+		style="background-color: #027BC6; line-height: 2em;">
+		<div class="row align-items-end">
+			<div class="col-lg-6">
+				<div class="page-header-title">
+					<div class="d-inline" style="padding-left: 1em;">
+						<h4 style="color: white;">Menu Header Grid</h4>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="page-header-breadcrumb" style="padding-right: 1em;">
+					<ul class="breadcrumb-title">
+						<li class="breadcrumb-item"><a href="admin"> <i
+								class="feather icon-home"></i>
+						</a></li>
+						<li class="breadcrumb-item"><a href="">Fin Year</a></li>
+						<li class="breadcrumb-item"><a href="menugroupgrid">Read Only Fin Year
+								</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<form action="addnewrule" method="post"
+		ModelAttribute="Bpil_Rule_Library" enctype="multipart/form-data">
+		<!-- start: page -->
+		<section class="panel">
+			<header class="panel-heading">
+				<div class="panel-actions"></div>
+				<h2 class="panel-title">Financial Year Details</h2>
+
+			</header>
+			<c:forEach var="grp_reg" items="${list}" varStatus="status">
+				<div class="panel-body">
+					<div class="col-md-12">
+						<div class="col-md-4">
+							<label class="control-label" for="inputSuccess">Fin Year
+								: </label> <input type="text" class="form-control" name="fin_year"
+								id="fin_year" value="${grp_reg.fin_year}" readonly="readonly"></input>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label" for="inputSuccess">No OF
+								Weeks : </label> <input type="text" class="form-control"
+								name="no_of_weeks" id="no_of_weeks"
+								value="${grp_reg.no_of_weeks}" readonly="readonly"></input>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label" for="inputSuccess">Current
+								Year : </label> <select name="current_yr_flag" id="current_yr_flag"
+								value="${grp_reg.current_yr_flag}" class="form-control" required>
+								<option value="${grp_reg.current_yr_flag}">${grp_reg.current_yr_flag}</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="col-md-4">
+							<label class="control-label" for="inputSuccess">Start
+								Date : </label> <input type="text" class="form-control" id="start_date1"
+								name="start_date" value="${grp_reg.start_date1}"
+								readonly="readonly"></input>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label" for="inputSuccess">End Date
+								: </label> <input type="text" class="form-control" name="end_date1"
+								id="end_date1" value="${grp_reg.end_date1}" readonly="readonly"></input>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label" for="inputSuccess">Active :
+							</label> <input type="text" class="form-control" name="active_flag"
+								id="active_flag" value="${grp_reg.active_flag}"
+								readonly="readonly"></input>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+
+		</section>
+		<!-- end: page -->
+
+
+
+	</form>
+</section>
+
+<script src="resources/newportal/vendor/jquery/jquery.js"></script>
+
+<script>
+	$(document).ready(function() {
+		//alert("***");
+
+		//	$.getJSON('${pageContext.request.contextPath}/load_Pending_IT_Scheme_Approval', // ${pageContext.request.contextPath}/load_Pending_IT_Scheme_Approval
+		//	function(json) {
+		/*
+		$('#datatable-editable').dataTable( {
+		    "aaData": json,
+		    "columns": [
+		        { "data": "scheme_id" } ,
+		        { "data": "scheme_name" },
+		        { "data": "scheme_code" },
+		        { "data": "start_date1" }, 
+		        { "data": "end_date1" },
+		        { "data": "submission_date1" },
+		        { "data": "active_flag" }
+		    ]
+		})
+		 */
+
+		//	var tr;
+		/*
+		$('#datatable-editable').DataTable().destroy();
+		 */
+
+		/* 	for (var i = 0; i < json.length; i++) {
+
+				tr = $('<tr/>');
+				tr.append("<td>" +i+"</td>");
+				tr.append("<td>" + json[i].scheme_name + "</td>");
+				tr.append("<td>" +  json[i].scheme_code + "</td>");
+				tr.append("<td>" + json[i].start_date1 + "</td>");
+				tr.append("<td>" + json[i].end_date1 + "</td>");
+				tr.append("<td>" + json[i].submission_date1 + "</td>");
+				tr.append("<td>" + json[i].active_flag + "</td>");
+		
+				$('#datatable-editable').find('tbody').append(tr);
+				//$('#datatable-editable').append(tr);
+			}
+		 */
+
+		$('#datatable-editable').DataTable().draw();
+
+		/* 	});  */
+
+		//var oTable = $('#datatable-editable').DataTable( );
+		// to reload
+		//oTable.ajax.reload();
+		/*
+		var table = $('#datatable-editable').DataTable();
+		table.draw();
+		 */
+
+		/*
+		$.ajax({
+		'url': "${pageContext.request.contextPath}/load_Pending_IT_Scheme_Approval",
+		'method': "GET",
+		'contentType': 'application/json'
+		}).done( function(data) {
+		$('#datatable-editable').dataTable( {
+		    "aaData": data,
+		    "columns": [
+		        { "data": "scheme_id" } ,
+		        { "data": "scheme_name" },
+		        { "data": "scheme_code" },
+		        { "data": "start_date1" }, 
+		        { "data": "end_date1" },
+		        { "data": "submission_date1" },
+		        { "data": "active_flag" }
+		    ]
+		})
+		}); */
+
+	});
+</script>
+
+<script>
+	function validation(thisform) {
+		with (thisform) {
+			if (validateFileExtension(file, "valid_msg",
+					"pdf/doc/image files are only allowed!", new Array("pdf",
+							"doc", "docx", "xls", "xlsx", "txt")) == false) {
+				return false;
+			}
+		}
+	}
+</script>

@@ -1,0 +1,342 @@
+package com.omfys.bsat.repositoryImpl;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.omfys.bsat.repository.MenuGroupMgmtDao;
+import com.omfys.bsat.model.Bpil_MenuGroup;
+import com.omfys.bsat.model.Bpil_Menu_FunRegi;
+import com.omfys.bsat.model.Bpil_Menu_Header;
+import com.omfys.bsat.model.Bpil_Menu_Line;
+
+@Repository("MenuGroupMgmtDao")
+public class MenuGroupMgmtDaoImpl implements MenuGroupMgmtDao {
+	
+	@Autowired
+	private HibernateTemplate hibernatetemplate;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+
+	@Override
+	public List<Bpil_MenuGroup> menugroupgrid() {
+		// TODO Auto-generated method stub
+		
+		String sql = "SELECT MENU_GROUP_ID,GROUP_NAME,GROUP_DESCRIPTION,ACTIVE,GROUP_START_DATE,GROUP_END_DATE FROM BPIL_MENU_GROUP ORDER BY MENU_GROUP_ID";
+		
+		List<Bpil_MenuGroup> menugroup_list = jdbcTemplate.query(sql, new RowMapper<Bpil_MenuGroup>() {
+
+			@Override
+			public Bpil_MenuGroup mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				
+				Bpil_MenuGroup menugroup = new Bpil_MenuGroup();
+				
+				menugroup.setMenu_group_id(rs.getInt("MENU_GROUP_ID"));
+				menugroup.setGroup_name(rs.getString("GROUP_NAME"));
+				menugroup.setGroup_description(rs.getString("GROUP_DESCRIPTION"));
+				menugroup.setActive(rs.getString("ACTIVE"));
+				
+				if(rs.getDate("GROUP_START_DATE") != null) {
+					DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+					String start = dateFormat.format(rs.getDate("GROUP_START_DATE"));
+					menugroup.setGroup_start_date(rs.getDate("GROUP_START_DATE"));
+					menugroup.setGroup_start_date1(start);
+					
+					Date startdate = null;
+					try {
+						startdate = dateFormat.parse(rs.getString("GROUP_START_DATE"));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+//					System.out.println(start);
+//					System.out.println(startdate);
+				}
+				
+				if(rs.getDate("GROUP_END_DATE") != null) {
+					DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+					String end = dateFormat.format(rs.getDate("GROUP_END_DATE"));
+					menugroup.setGroup_end_date(rs.getDate("GROUP_END_DATE"));
+					menugroup.setGroup_end_date1(end);
+					
+					Date enddate = null;
+					try {
+						enddate = dateFormat.parse(rs.getString("GROUP_END_DATE"));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+//					System.out.println(end);
+//					System.out.println(enddate);
+				}
+				
+				return menugroup;
+				
+			}
+			
+		});
+		
+		return menugroup_list;
+		
+	}
+
+	@Override
+	@Transactional
+	public int savemenugroup(Bpil_MenuGroup menuGroup) {
+		// TODO Auto-generated method stub
+		
+		hibernatetemplate.saveOrUpdate(menuGroup);
+		
+		return menuGroup.getMenu_group_id();
+	}
+
+	@Override
+	public Bpil_MenuGroup menugroupautofill(int menugrp_id) {
+		// TODO Auto-generated method stub
+		
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+		
+		Bpil_MenuGroup menuGroup = (Bpil_MenuGroup) session.load(Bpil_MenuGroup.class, menugrp_id);
+		
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		
+		if(menuGroup.getGroup_start_date() != null) {
+			String startdate = dateFormat.format(menuGroup.getGroup_start_date());
+			menuGroup.setGroup_start_date1(startdate);
+			
+			try {
+				Date start = dateFormat.parse(menuGroup.getGroup_start_date1());
+	//			System.out.println(start);
+	//			System.out.println(startdate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if(menuGroup.getGroup_end_date() != null) {
+			String enddate = dateFormat.format(menuGroup.getGroup_end_date());
+			menuGroup.setGroup_end_date1(enddate);
+			
+			try {
+				Date end = dateFormat.parse(menuGroup.getGroup_end_date1());
+	//			System.out.println(end);
+	//			System.out.println(enddate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		transaction.commit();
+		session.close();
+		
+		return menuGroup;
+	}
+
+	@Override
+	public List<Bpil_Menu_Header> menuheadergrid() {
+		// TODO Auto-generated method stub
+		
+		String sql = "SELECT MENU_HEADER_ID,MENU_GROUP_ID,HEADER_NAME,HEADER_ACTIVE,HEADER_START_DATE,HEADER_END_DATE FROM BPIL_MENU_HEADER ORDER BY MENU_HEADER_ID ";
+		List<Bpil_Menu_Header> menu_Headers = jdbcTemplate.query(sql, new RowMapper<Bpil_Menu_Header>() {
+
+			@Override
+			public Bpil_Menu_Header mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				
+				Bpil_Menu_Header menu_Header = new Bpil_Menu_Header();
+				
+				menu_Header.setMenu_header_id(rs.getInt("MENU_HEADER_ID"));
+				menu_Header.setMenu_group_id(rs.getInt("MENU_GROUP_ID"));
+				menu_Header.setHeader_name(rs.getString("HEADER_NAME"));
+				menu_Header.setHeader_active(rs.getString("HEADER_ACTIVE"));
+				
+				if(rs.getDate("HEADER_START_DATE") != null) {
+					DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+					String start = dateFormat.format(rs.getDate("HEADER_START_DATE"));
+					menu_Header.setHeader_start_date(rs.getDate("HEADER_START_DATE"));
+					menu_Header.setHeader_start_date1(start);
+					
+					Date startdate = null;
+					try {
+						startdate = dateFormat.parse(rs.getString("HEADER_START_DATE"));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+//					System.out.println(start);
+//					System.out.println(startdate);
+				}
+				
+				if(rs.getDate("HEADER_END_DATE") != null) {
+					DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+					String end = dateFormat.format(rs.getDate("HEADER_END_DATE"));
+					menu_Header.setHeader_end_date(rs.getDate("HEADER_END_DATE"));
+					menu_Header.setHeader_end_date1(end);
+					
+					Date enddate = null;
+					try {
+						enddate = dateFormat.parse(rs.getString("HEADER_END_DATE"));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+//					System.out.println(end);
+//					System.out.println(enddate);
+				}
+				
+				return menu_Header;
+			}
+			
+		});
+		
+		return menu_Headers;
+	}
+
+	@Override
+	@Transactional
+	public int savemenuheader(Bpil_Menu_Header menu_Header) {
+		// TODO Auto-generated method stub
+		
+		menu_Header.setHeader_icon("menu-icon fa fa-tachometer");
+		
+		hibernatetemplate.saveOrUpdate(menu_Header);
+		
+		return menu_Header.getMenu_header_id();
+	}
+
+	@Override
+	@Transactional
+	public int savemenulines(int menu_header_id, String[] menu_line_id, String[] line_status, String[] line_name,String[] action_name, int user_id) {
+		// TODO Auto-generated method stub
+		
+		int infonum = 0;
+		for (int i = 0; i < line_name.length; i++) {
+			Bpil_Menu_Line menu_line = new Bpil_Menu_Line();
+			
+			if(menu_line_id[i].length() > 0 && menu_line_id[i] != null) {
+				infonum = Integer.parseInt(menu_line_id[i]);
+			} else {
+				infonum = menu_line.getMenu_line_id();
+			}
+			
+			menu_line.setMenu_line_id(infonum);
+			menu_line.setMenu_header_id(menu_header_id);
+			menu_line.setLine_name(line_name[i]);
+			menu_line.setActive(line_status[i]);
+			menu_line.setAction_name(action_name[i]);
+			menu_line.setLine_icon("menu-icon fa-newspaper-o");
+			
+			menu_line.setCreated_by(user_id);
+			menu_line.setLast_updated_by(user_id);
+			
+			hibernatetemplate.saveOrUpdate(menu_line);
+		}
+		return 1;
+	}
+
+	@Override
+	public Bpil_Menu_Header menuheaderautofill(int menuheader_id) {
+		// TODO Auto-generated method stub
+		
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+		
+		Bpil_Menu_Header menu_Header = (Bpil_Menu_Header) session.load(Bpil_Menu_Header.class, menuheader_id);
+		
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		
+		if(menu_Header.getHeader_start_date() != null) {
+			String startdate = dateFormat.format(menu_Header.getHeader_start_date());
+			menu_Header.setHeader_start_date1(startdate);
+			
+			try {
+				Date start = dateFormat.parse(menu_Header.getHeader_start_date1());
+	//			System.out.println(start);
+	//			System.out.println(startdate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if(menu_Header.getHeader_end_date() != null) {
+			String enddate = dateFormat.format(menu_Header.getHeader_end_date());
+			menu_Header.setHeader_end_date1(enddate);
+			
+			try {
+				Date end = dateFormat.parse(menu_Header.getHeader_end_date1());
+	//			System.out.println(end);
+	//			System.out.println(enddate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		transaction.commit();
+		session.close();
+		
+		return menu_Header;
+	}
+
+	@Override
+	public ArrayList<Bpil_Menu_Line> menulineautofill(int menuheader_id) {
+		// TODO Auto-generated method stub
+		
+		ArrayList<Bpil_Menu_Line> menu_Lines = (ArrayList<Bpil_Menu_Line>) hibernatetemplate.find("from Bpil_Menu_Line where menu_header_id = ?", menuheader_id);
+		
+		return menu_Lines;
+	}
+
+	@Override
+	@Transactional
+	public int savemenufunctions(String[] menu_function_id, String[] menu_line_id, String[] function_name,
+			String[] function_action_name, String[] line_status) {
+		// TODO Auto-generated method stub
+		
+		int infonum = 0;
+		for (int i = 0; i < function_name.length; i++) {
+			Bpil_Menu_FunRegi menu_Function = new Bpil_Menu_FunRegi();
+			
+			if(menu_function_id[i].length() > 0 && menu_function_id[i] != null) {
+				infonum = Integer.parseInt(menu_function_id[i]);
+			} else {
+				infonum = menu_Function.getMenu_function_id();
+			}
+			
+			menu_Function.setMenu_function_id(infonum);
+			menu_Function.setMenu_line_id(Integer.parseInt(menu_line_id[i]));
+			menu_Function.setFunction_name(function_name[i]);
+			menu_Function.setFunction_action_name(function_action_name[i]);
+			menu_Function.setActive(line_status[i]);
+			
+			hibernatetemplate.saveOrUpdate(menu_Function);
+		}
+		return 1;
+	}
+
+}

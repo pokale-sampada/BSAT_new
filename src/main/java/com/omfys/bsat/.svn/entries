@@ -1,0 +1,123 @@
+10
+
+dir
+9605
+http://10.0.0.10:8089/svn/testrepo/BSAT-R3/src/main/java/com/omfys/bsat
+http://10.0.0.10:8089/svn/testrepo
+
+
+
+2020-12-01T07:11:19.120453Z
+9605
+ujansing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4e3a8de2-963d-4d64-bd20-7f96d5ef77c5
+
+repository
+dir
+
+model
+dir
+
+service
+dir
+
+repositoryImpl
+dir
+
+serviceImpl
+dir
+
+controller
+dir
+
+javatrigger
+dir
+
+configuration
+dir
+
+email
+dir
+
+TilesConfiguration.java
+file
+
+
+
+
+2020-12-11T05:12:37.667633Z
+e01cb919b7d1eef184a95b75d27c33c7
+2020-12-01T07:05:13.037554Z
+9602
+ujansing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5111
+
+BSATApplication.java
+file
+9884
+
+
+
+2020-12-11T05:54:35.936670Z
+2c9d4b6b70d267fb08158ef8672dd902
+2021-03-02T13:14:11.566864Z
+9884
+krantip
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1261
+

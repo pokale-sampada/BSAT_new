@@ -1,0 +1,332 @@
+
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!--  <section role="main" class="content-body">
+	<header class="page-header">
+		<h2></h2>
+
+		<div class="right-wrapper pull-right">
+			<ol class="breadcrumbs">
+				<li><a href=""> <i class="fa fa-home"></i>
+				</a></li>
+				<li><span>Reports</span></li>
+				<li><span>Gift Count Report</span></li>
+			</ol>
+
+			<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
+		</div>
+	</header>-->
+
+	<form method="post" id="Saveform">
+	<div class="page-header" style="background-color: #027BC6;line-height: 2em;">
+                                    <div class="row align-items-end">
+                                        <div class="col-lg-8">
+                                            <div class="page-header-title">
+                                                <div class="d-inline" style="padding-left: 1em;">
+                                                    <h4 style="color: white;">Customer Analysis Report</h4>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="page-header-breadcrumb" style="padding-right: 1em;">
+                                                <ul class="breadcrumb-title">
+                                                    <li class="breadcrumb-item">
+                                                        <a href=""> <i class="feather icon-home"></i> </a>
+                                                    </li>
+                                                    <li class="breadcrumb-item"><a href="">Reports</a>
+                                                    </li>
+                                                    <li class="breadcrumb-item"><a href="schemeanalysisreport">Customer Sch Analysis Report</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+<div class="card">
+		<div class="card-header">
+			<h5>Customer Sch Analysis Report</h5>
+			<div class="card-header-right">
+				<ul class="list-unstyled card-option">
+					<li><i class="feather icon-maximize full-card"></i></li>
+					<li><i class="feather icon-minus minimize-card"></i></li>
+					<li><i class="feather icon-trash-2 close-card"></i></li>
+				</ul>
+			</div>
+		</div>
+	<div class="card">
+	<div class="card-block">
+		<div class="form-group row">
+				<div class="col-md-4">
+					<label class="control-label" for="inputSuccess">ML Group<span class="required">*</span></label> <select
+						class="form-control input-sm mb-md populate" data-plugin-selectTwo
+						name="ML_Group" id="ML_Group" required="required">
+						<option>--Select--</option>
+					</select>
+				</div>
+				<div class="col-md-4">
+					<label class="control-label" for="inputSuccess">Fin Year<span class="required">*</span></label> <select
+						class="form-control input-sm mb-md populate" data-plugin-selectTwo
+						name="scheme_fin_yr" id="scheme_fin_yr" required="required">
+						<option>--Select--</option>
+					</select>
+				</div>
+				<div class="col-md-4">
+					<label class="control-label" for="inputSuccess">Fin Month<span class="required">*</span></label> <select
+						class="form-control input-sm mb-md populate" data-plugin-selectTwo
+						name="scheme_fin_month" id="scheme_fin_month" required="required">
+						<option value="">--Select--</option>
+						<option value="Apr">Apr</option>
+						<option value="May">May</option>
+						<option value="Jun">Jun</option>
+						<option value="Jul">Jul</option>
+						<option value="Aug">Aug</option>
+						<option value="Sep">Sep</option>
+						<option value="Oct">Oct</option>
+						<option value="Nov">Nov</option>
+						<option value="Dec">Dec</option>
+						<option value="Jan">Jan</option>
+						<option value="Feb">Feb</option>
+						<option value="Mar">Mar</option>
+					</select>
+				</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-12" style="text-align: center;">
+				<input type="button" class="btn btn-primary" id="action4"
+					value="Show Report" onclick="searchinfo()"></input> <input
+					type="button" class="btn btn-primary" id="action5"
+					value="Download Report" onclick="downloadreport()"></input>
+			</div>
+		</div>
+
+		<hr>
+		<!-- start: page -->
+		<section class="panel">
+			<header class="panel-heading">
+				<div class="panel-actions">
+					<!-- <a href="#" class="fa fa-caret-down"></a> <a href="#"
+						class="fa fa-times"></a> -->
+				</div>
+				<h4 class="panel-title">Gift Count Report</h4>
+
+			</header>
+			<div class="panel-body">
+				<table class="table table-bordered table-striped"
+					id="datatable-editable"
+					data-url="assets/ajax/ajax-datatables-sample.json">
+					<thead>
+						<tr>
+							<th class="center" width="20%">Scheme Name</th>
+							<th class="center" width="15%">Scheme Code</th>
+							<th class="center" width="15%">Distributors</th>
+							<th class="center" width="15%">Reward</th>
+							<th class="center" width="15%">Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="info" items="${Info_grid}" varStatus="status">
+							<tr>
+								<td>${info.scheme_name}</td>
+								<td>${info.scheme_code}</td>
+								<td>${info.depot}</td>
+								<td>${info.reward}</td>
+								<td>${info.total}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</section>
+	</form>
+	<!-- end: page -->
+</section>
+
+<script src="resources/newportal/vendor/jquery/jquery.js"></script>
+
+<script>
+	$(document).ready(function() {
+		//alert("***");
+
+		//	$.getJSON('${pageContext.request.contextPath}/load_Pending_IT_Scheme_Approval', // ${pageContext.request.contextPath}/load_Pending_IT_Scheme_Approval
+		//	function(json) {
+		/*
+		$('#datatable-editable').dataTable( {
+		    "aaData": json,
+		    "columns": [
+		        { "data": "scheme_id" } ,
+		        { "data": "scheme_name" },
+		        { "data": "scheme_code" },
+		        { "data": "start_date1" }, 
+		        { "data": "end_date1" },
+		        { "data": "submission_date1" },
+		        { "data": "active_flag" }
+		    ]
+		})
+		 */
+
+		//	var tr;
+		/*
+		$('#datatable-editable').DataTable().destroy();
+		 */
+
+		/* 	for (var i = 0; i < json.length; i++) {
+
+				tr = $('<tr/>');
+				tr.append("<td>" +i+"</td>");
+				tr.append("<td>" + json[i].scheme_name + "</td>");
+				tr.append("_$ta" +  json[i].scheme_code + "_$tag");
+				tr.append("_$ta" + json[i].start_date1 + "_$tag");
+				tr.append("_$ta" + json[i].end_date1 + "_$tag");
+				tr.append("_$ta" + json[i].submission_date1 + "_$tag");
+				tr.append("_$ta" + json[i].active_flag + "_$tag");
+		
+				$('#datatable-editable').find('tbody').append(tr);
+				//$('#datatable-editable').append(tr);
+			}
+		 */
+
+		$('#datatable-editable').DataTable().draw();
+
+		/* 	});  */
+
+		//var oTable = $('#datatable-editable').DataTable( );
+		// to reload
+		//oTable.ajax.reload();
+		/*
+		var table = $('#datatable-editable').DataTable();
+		table.draw();
+		 */
+
+		/*
+		$.ajax({
+		'url': "${pageContext.request.contextPath}/load_Pending_IT_Scheme_Approval",
+		'method': "GET",
+		'contentType': 'application/json'
+		}).done( function(data) {
+		$('#datatable-editable').dataTable( {
+		    "aaData": data,
+		    "columns": [
+		        { "data": "scheme_id" } ,
+		        { "data": "scheme_name" },
+		        { "data": "scheme_code" },
+		        { "data": "start_date1" }, 
+		        { "data": "end_date1" },
+		        { "data": "submission_date1" },
+		        { "data": "active_flag" }
+		    ]
+		})
+		}); */
+
+	});
+</script>
+
+<script>
+	$(window)
+			.load(
+					function() {
+
+						$
+								.ajax({
+									url : '${pageContext.request.contextPath}/loadfinyear',
+
+									success : function(data) {
+										var select = $('#scheme_fin_yr');
+										select.find('option').remove();
+										$('<option>').val("")
+												.text("--Select--").appendTo(
+														select);
+										$
+												.each(
+														data,
+														function(index, value) {
+															if (value.fin_year == "${scheme_fin_yr}") {
+																$(
+																		'<option selected>')
+																		.val(
+																				value.fin_year)
+																		.text(
+																				value.fin_year)
+																		.appendTo(
+																				select);
+															} else {
+																$('<option>')
+																		.val(
+																				value.fin_year)
+																		.text(
+																				value.fin_year)
+																		.appendTo(
+																				select);
+															}
+														});
+
+									}
+								});
+
+						$
+								.ajax({
+									url : '${pageContext.request.contextPath}/getMLGroup',
+									success : function(data) {
+										var select = $('#ML_Group');
+										select.find('option').remove();
+										$('<option>').val("")
+												.text("--Select--").appendTo(
+														select);
+										$.each(data, function(index, value) {
+											if (value.ml == "${ML_Group}") {
+												$('<option selected>').val(
+														value.ml)
+														.text(value.ml)
+														.appendTo(select);
+											} else {
+												$('<option>').val(value.ml)
+														.text(value.ml)
+														.appendTo(select);
+											}
+										});
+
+									}
+								});
+						document.getElementById("datepicker").value = "${datepicker}";
+						document.getElementById("datepicker1").value = "${datepicker1}";
+					});
+</script>
+
+<script type="text/javascript">
+	function downloadreport() {
+		var ml_group = document.getElementById("ML_Group").value;
+		var scheme_fin_yr = document.getElementById("scheme_fin_yr").value;
+		var scheme_fin_month = document.getElementById("scheme_fin_month").value;
+		if (ml_group == "" || scheme_fin_yr == "" || scheme_fin_month == "") {
+			alert("Please select ML Group and Financial Year and Month");
+		} else {
+
+			window.location.href = "downloadGiftCountReport?ml_group="
+					+ ml_group + "&scheme_fin_yr=" + scheme_fin_yr
+					+ "&scheme_fin_month=" + scheme_fin_month;
+		}
+	}
+
+	function searchinfo() {
+		var ml_group = document.getElementById("ML_Group").value;
+		var scheme_fin_yr = document.getElementById("scheme_fin_yr").value;
+		var scheme_fin_month = document.getElementById("scheme_fin_month").value;
+		console.log(ml_group);
+		console.log(scheme_fin_yr);
+
+		console.log(scheme_fin_month);
+		if (ml_group == "" || scheme_fin_yr == "" || scheme_fin_month == "") {
+			alert("Please select ML Group and Financial Year and Month");
+		} else {
+
+			window.location.href = "GiftCountReport?ml_group=" + ml_group
+					+ "&scheme_fin_yr=" + scheme_fin_yr + "&scheme_fin_month="
+					+ scheme_fin_month;
+		}
+	}
+</script>

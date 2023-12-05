@@ -1,0 +1,39 @@
+package com.omfys.bsat.repository;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.omfys.bsat.model.Bpil_MenuGroup;
+import com.omfys.bsat.model.Bpil_Menu_Header;
+import com.omfys.bsat.model.Bpil_Menu_Line;
+import com.omfys.bsat.model.Bpil_SubMenu_Line;
+
+@Transactional(readOnly = false)
+public interface MenuGroupMgmtDao {
+
+	List<Bpil_MenuGroup> menugroupgrid();
+
+	int savemenugroup(Bpil_MenuGroup menuGroup);
+
+	Bpil_MenuGroup menugroupautofill(int menugrp_id);
+
+	List<Bpil_Menu_Header> menuheadergrid();
+
+	int savemenuheader(Bpil_Menu_Header menu_Header);
+
+	int savemenulines(int menu_header_id, String[] menu_line_id, String[] line_status, String[] line_name, String[] action_name, int user_id);
+
+	Bpil_Menu_Header menuheaderautofill(int menuheader_id);
+
+	ArrayList<Bpil_Menu_Line> menulineautofill(int menuheader_id);
+
+	int savemenufunctions(String[] menu_function_id, String[] menu_line_id, String[] function_name,
+			String[] function_action_name, String[] line_status);
+
+	int savemenuline(Bpil_Menu_Line menu_Line);
+
+	int savesubmenuline(Bpil_SubMenu_Line submenu_line);
+
+}

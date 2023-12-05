@@ -1,0 +1,1174 @@
+package com.omfys.bsat.controller;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.xml.sax.SAXException;
+
+import com.omfys.bsat.model.Bpil_Lookup;
+import com.omfys.bsat.model.Bpil_LookupValues;
+import com.omfys.bsat.model.Bpil_User_ProfileId_List;
+import com.omfys.bsat.model.Bpil_Users;
+import com.omfys.bsat.model.DEALERMASTERDEMO;
+import com.omfys.bsat.model.LookupAutofill;
+import com.omfys.bsat.model.ProductMasterDemo;
+import com.omfys.bsat.model.SysAdmin_Users;
+import com.omfys.bsat.service.LookUpService;
+
+@Controller
+public class LookUpController {
+
+	@Autowired
+	LookUpService lookUpService;
+
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	private HibernateTemplate hibernateTemplate;
+
+	@RequestMapping(value = "/Lookup")
+	public ModelAndView PrfInfo_list1(ModelAndView model, ModelMap map, HttpServletRequest request) throws IOException {
+
+		String loginString = (String) request.getSession().getAttribute("loginflag");
+		Integer profile_id = (Integer) request.getSession().getAttribute("profileid");
+		try {
+			/* Login Checking Code Start */
+			if (loginString.equals("Y")) {
+
+				if (profile_id == Bpil_User_ProfileId_List.ADMIN_PROFILE_ID) {
+					Bpil_Lookup lookup = new Bpil_Lookup();
+					Bpil_LookupValues lookupvalues = new Bpil_LookupValues();
+
+					map.addAttribute("lookup", lookup);
+					map.addAttribute("lookupvalues", lookupvalues);
+
+					return new ModelAndView("LookUpType1");
+				} else {
+					return new ModelAndView("unauthorizedattempt");
+				}
+
+			} else {
+				Bpil_Users kwm_users = new Bpil_Users();
+				map.addAttribute("kwm_users", kwm_users);
+				System.out.println("Here ------> berger login"); // Cursor comes to here
+				return new ModelAndView("login");
+			}
+			/* Login Checking Code Ends */
+		} catch (NullPointerException e) {
+			Bpil_Users kwm_users = new Bpil_Users();
+			map.addAttribute("kwm_users", kwm_users);
+			System.out.println("Here ------> berger login"); // Cursor comes to here
+			return new ModelAndView("login");
+		}
+
+	}
+
+	@RequestMapping(value = "/MasterEntry")
+	public ModelAndView MasterEntry(ModelAndView model, ModelMap map, HttpServletRequest request) throws IOException {
+
+		String loginString = (String) request.getSession().getAttribute("loginflag");
+		Integer profile_id = (Integer) request.getSession().getAttribute("profileid");
+		try {
+			/* Login Checking Code Start */
+			if (loginString.equals("Y")) {
+
+				if (profile_id == Bpil_User_ProfileId_List.ADMIN_PROFILE_ID) {
+					return new ModelAndView("MasterEntry");
+				} else {
+					return new ModelAndView("unauthorizedattempt");
+				}
+
+			} else {
+				Bpil_Users kwm_users = new Bpil_Users();
+				map.addAttribute("kwm_users", kwm_users);
+				System.out.println("Here ------> berger login"); // Cursor comes to here
+				return new ModelAndView("login");
+			}
+			/* Login Checking Code Ends */
+		} catch (NullPointerException e) {
+			Bpil_Users kwm_users = new Bpil_Users();
+			map.addAttribute("kwm_users", kwm_users);
+			System.out.println("Here ------> berger login"); // Cursor comes to here
+			return new ModelAndView("login");
+		}
+
+	}
+
+	@RequestMapping(value = "/Lookupgrid")
+	public ModelAndView listContac(ModelAndView model, ModelMap map, HttpServletRequest request) throws IOException {
+
+		String loginString = (String) request.getSession().getAttribute("loginflag");
+		Integer profile_id = (Integer) request.getSession().getAttribute("profileid");
+		try {
+			/* Login Checking Code Start */
+			if (loginString.equals("Y")) {
+
+				if (profile_id == Bpil_User_ProfileId_List.ADMIN_PROFILE_ID) {
+					Bpil_Lookup lookup = new Bpil_Lookup();
+					Bpil_LookupValues lookupvalues = new Bpil_LookupValues();
+
+					// List<LookupAutofill> alllookuplist = lookUpService.lookuplist1();
+					List<LookupAutofill> alllookuplist = lookUpService.lookuplist1();
+
+					LookupAutofill lookuplist = new LookupAutofill();
+
+					model.addObject("lookuplist", lookuplist);
+					model.addObject("alllookuplist", alllookuplist);
+
+					map.addAttribute("lookup", lookup);
+					map.addAttribute("lookupvalues", lookupvalues);
+
+					model.setViewName("LookUpGrid");
+
+					return model;
+				} else {
+					return new ModelAndView("unauthorizedattempt");
+				}
+
+			} else {
+				SysAdmin_Users kwm_users = new SysAdmin_Users();
+				map.addAttribute("kwm_users", kwm_users);
+				System.out.println("Here ------> berger login"); // Cursor comes to here
+				return new ModelAndView("login");
+			}
+			/* Login Checking Code Ends */
+		} catch (NullPointerException e) {
+			SysAdmin_Users kwm_users = new SysAdmin_Users();
+			map.addAttribute("kwm_users", kwm_users);
+			System.out.println("Here ------> berger login"); // Cursor comes to here
+			return new ModelAndView("login");
+		}
+
+		// return new ModelAndView("home");
+	}
+
+	@RequestMapping(value = "/loadlookupdata", method = RequestMethod.GET)
+	public ModelAndView lookupfunction(HttpServletRequest request, ModelAndView model1, ModelMap map, Model model,
+			@ModelAttribute Bpil_Lookup lookup, BindingResult resultlookup,
+			@ModelAttribute Bpil_LookupValues lookupvalues, BindingResult resultlookup1) throws IOException {
+
+		String loginString = (String) request.getSession().getAttribute("loginflag");
+		Integer profile_id = (Integer) request.getSession().getAttribute("profileid");
+		try {
+			/* Login Checking Code Start */
+			if (loginString.equals("Y")) {
+
+				if (profile_id == Bpil_User_ProfileId_List.ADMIN_PROFILE_ID) {
+					LookupAutofill lookupAutofill = new LookupAutofill();
+
+					String s1 = (request.getParameter("lookup_type"));
+					System.out.println("lookup type " + s1);
+
+					List<LookupAutofill> alllookuplist = lookUpService.lookup1(s1);
+					List<LookupAutofill> alllookuplist1 = lookUpService.lookup2(s1);
+
+					model.addAttribute("lookupAutofill", lookupAutofill);
+					model.addAttribute("alllookuplist", alllookuplist.get(0));
+					model.addAttribute("alllookuplist1", alllookuplist1);
+					map.addAttribute("lookup", lookup);
+					map.addAttribute("lookupvalues", lookupvalues);
+
+					System.out.println("end controller 1+++");
+
+					return new ModelAndView("LookUpType");
+				} else {
+					return new ModelAndView("unauthorizedattempt");
+				}
+
+			} else {
+				SysAdmin_Users kwm_users = new SysAdmin_Users();
+				map.addAttribute("kwm_users", kwm_users);
+				System.out.println("Here ------> berger login"); // Cursor comes to here
+				return new ModelAndView("login");
+			}
+			/* Login Checking Code Ends */
+		} catch (NullPointerException e) {
+			SysAdmin_Users kwm_users = new SysAdmin_Users();
+			map.addAttribute("kwm_users", kwm_users);
+			System.out.println("Here ------> berger login"); // Cursor comes to here
+			return new ModelAndView("login");
+		}
+
+	}
+
+	@RequestMapping(value = "/loadlookupdata2", method = RequestMethod.GET)
+	public void lookupfunction2(@RequestParam(value = "dealer") String dealer, HttpServletRequest request, Model model,
+			HttpServletResponse response)
+
+	{
+		System.out.println("value coming --------------------------" + dealer);
+		String query = "DELETE FROM BPIL_LOOKUP_VALUES WHERE LOOKUP_CODE= '"+dealer+"'";
+		jdbcTemplate.execute(query);
+
+	}
+	@RequestMapping(value = "/SaveLookup", method = RequestMethod.POST)
+	public ModelAndView saveLookup(@ModelAttribute Bpil_Lookup lookup, BindingResult resultlookup,
+			@ModelAttribute Bpil_LookupValues lookupvalues, BindingResult resultServiceRequestDetails, ModelMap map,
+			HttpServletRequest request) throws ParseException {
+
+		String loginString = (String) request.getSession().getAttribute("loginflag");
+		Integer profile_id = (Integer) request.getSession().getAttribute("profileid");
+		try {
+			/* Login Checking Code Start */
+			if (loginString.equals("Y")) {
+
+				if (profile_id == Bpil_User_ProfileId_List.ADMIN_PROFILE_ID) {
+					String kwm_user = (String) request.getSession().getAttribute("kwm_user");
+					if (kwm_user != null) {
+
+						int user_id = (Integer) request.getSession().getAttribute("userid");
+						System.out.println("User id" + user_id);
+
+						String startdate = request.getParameter("active_start_date");
+						if (startdate != null) {
+							Date sdate = null;
+							try {
+								sdate = new SimpleDateFormat("dd-MM-yyyy").parse(startdate);
+							} catch (ParseException e) {
+
+								e.printStackTrace();
+							}
+							lookup.setActive_start_date(sdate);
+						}
+
+//									String enddate = request.getParameter("active_end_date");
+//									if (enddate != null) {
+//										Date edate = null;
+//										try {
+//											edate = new SimpleDateFormat("dd-MM-yyyy").parse(enddate);
+//										} catch (ParseException e) {
+						//
+//											e.printStackTrace();
+//										}
+//										lookup.setActive_end_date(edate);
+//									}
+
+						lookup.setCreated_by(user_id);
+						lookup.setLast_updated_by(user_id);
+						lookup.setEnabled_flag("Y");
+						lookup.getActive_start_date();
+						lookup.getActive_end_date();
+
+						String type = lookUpService.save_lookup(lookup);
+
+						String lookup_code[] = request.getParameterValues("lookup_code");
+						String meaning[] = request.getParameterValues("meaning");
+						String active_start_date[] = request.getParameterValues("l_active_start_date");
+						String active_end_date[] = request.getParameterValues("l_active_end_date");
+						String description[] = request.getParameterValues("description");
+
+						int count = lookup_code.length;
+						System.out.println("count = " + count);
+						int aa = lookUpService.save_lookupvalues(user_id, count, type, lookup_code, meaning,
+								description, active_start_date, active_end_date);
+
+						System.out.println("count : " + aa);
+
+						Bpil_Lookup lookup2 = new Bpil_Lookup();
+						Bpil_LookupValues lookupvalues2 = new Bpil_LookupValues();
+
+						map.addAttribute("lookup", lookup2);
+						map.addAttribute("lookupvalues", lookupvalues2);
+					}
+					return new ModelAndView("redirect:/Lookupgrid");
+				} else {
+					return new ModelAndView("unauthorizedattempt");
+				}
+
+			} else {
+				Bpil_Users kwm_users = new Bpil_Users();
+				map.addAttribute("kwm_users", kwm_users);
+				System.out.println("Here ------> berger login"); // Cursor comes to here
+				return new ModelAndView("login");
+			}
+			/* Login Checking Code Ends */
+		} catch (NullPointerException e) {
+			Bpil_Users kwm_users = new Bpil_Users();
+			map.addAttribute("kwm_users", kwm_users);
+			System.out.println("Here ------> berger login"); // Cursor comes to here
+			return new ModelAndView("login");
+		}
+
+	}
+
+	@RequestMapping(value = "/SaveLookup1", method = RequestMethod.POST)
+	public ModelAndView saveLookup1(@ModelAttribute Bpil_Lookup lookup, BindingResult resultlookup,
+			@ModelAttribute Bpil_LookupValues lookupvalues, BindingResult resultServiceRequestDetails, ModelMap map,
+			Model model, HttpServletRequest request) throws ParseException {
+
+		String loginString = (String) request.getSession().getAttribute("loginflag");
+		Integer profile_id = (Integer) request.getSession().getAttribute("profileid");
+		try {
+			/* Login Checking Code Start */
+			if (loginString.equals("Y")) {
+
+				if (profile_id == Bpil_User_ProfileId_List.ADMIN_PROFILE_ID) {
+					String kwm_user = (String) request.getSession().getAttribute("kwm_user");
+					if (kwm_user != null) {
+
+						int user_id = (Integer) request.getSession().getAttribute("userid");
+						System.out.println("User id" + user_id);
+
+						Date start_date = null;
+						try {
+							System.out.println("start date" + request.getParameter("active_start_date"));
+							start_date = new SimpleDateFormat("dd-MM-yyyy")
+									.parse(request.getParameter("l_active_start_date"));
+						} catch (ParseException e) {
+
+							e.printStackTrace();
+						}
+
+						Date end_date = null;
+						try {
+							System.out.println("start date" + request.getParameter("active_end_date"));
+							end_date = new SimpleDateFormat("dd-MM-yyyy")
+									.parse(request.getParameter("l_active_end_date"));
+						} catch (ParseException e) {
+
+							e.printStackTrace();
+						}
+
+						lookup.setActive_start_date(start_date);
+						lookup.setActive_end_date(end_date);
+						lookup.setCreated_by(user_id);
+						lookup.setLast_updated_by(user_id);
+						lookup.setEnabled_flag("Y");
+
+						String type = lookUpService.save_lookup(lookup);
+
+						// save line
+						String lookup_code[] = request.getParameterValues("lookup_code");
+						String meaning[] = request.getParameterValues("meaning");
+						String description[] = request.getParameterValues("description");
+						String active_start_date[] = request.getParameterValues("l_active_start_date");
+						String active_end_date[] = request.getParameterValues("l_active_end_date");
+
+						int count = lookup_code.length;
+
+						int result = lookUpService.save_lookupvalues(user_id, count, type, lookup_code, meaning,
+								description, active_start_date, active_end_date);
+
+						System.out.println("Save done of data ------------------");
+
+						Bpil_Lookup lookup2 = new Bpil_Lookup();
+						Bpil_LookupValues lookupvalues2 = new Bpil_LookupValues();
+
+						// akash
+						String s1 = request.getParameter("lookup_type2");
+						List<LookupAutofill> alllookuplist = lookUpService.lookup1(s1);
+						List<LookupAutofill> alllookuplist1 = lookUpService.lookup2(s1);
+						model.addAttribute("alllookuplist", alllookuplist.get(0));
+						model.addAttribute("alllookuplist1", alllookuplist1);
+						// akash
+
+						map.addAttribute("lookup", lookup2);
+						map.addAttribute("lookupvalues", lookupvalues2);
+					}
+
+					return new ModelAndView("LookUpType");
+				} else {
+					return new ModelAndView("unauthorizedattempt");
+				}
+
+			} else {
+				SysAdmin_Users kwm_users = new SysAdmin_Users();
+				map.addAttribute("kwm_users", kwm_users);
+				System.out.println("Here ------> berger login"); // Cursor comes to here
+				return new ModelAndView("login");
+			}
+			/* Login Checking Code Ends */
+		} catch (NullPointerException e) {
+			SysAdmin_Users kwm_users = new SysAdmin_Users();
+			map.addAttribute("kwm_users", kwm_users);
+			System.out.println("Here ------> berger login"); // Cursor comes to here
+			return new ModelAndView("login");
+		}
+
+	}
+
+	
+	@RequestMapping(value = "/getTagsLookUp", method = RequestMethod.GET)
+	public @ResponseBody List<Bpil_Lookup> getTags(@RequestParam String tagName, HttpServletRequest request) {
+
+		int user_id = (Integer) request.getSession().getAttribute("userid");
+
+		if (user_id != 0) {
+			if (tagName.equals(null)) {
+				List<Bpil_Lookup> inst_returnlist = new ArrayList<Bpil_Lookup>();
+				Bpil_Lookup prfobj = new Bpil_Lookup();
+				return inst_returnlist;
+			} else {
+				return simulateSearchResult(tagName);
+			}
+		}
+		return null;
+
+	}
+
+	private List<Bpil_Lookup> simulateSearchResult(String tagName) {
+		System.out.println("start of controller");
+
+		List<Bpil_Lookup> lookup_result = new ArrayList<Bpil_Lookup>();
+		if (tagName.equals("")) {
+			lookup_result = null;
+
+		} else {
+			List<Bpil_Lookup> lookuplist = lookUpService.listLookUp(tagName);
+			for (Bpil_Lookup lookuptag : lookuplist) {
+
+				lookup_result.add(lookuptag);
+
+			}
+		}
+
+		if (lookup_result.isEmpty()) {
+
+		}
+		System.out.println("end of controller");
+		return lookup_result;
+	}
+
+	@RequestMapping(value = "/showlookup")
+	public ModelAndView show_lookup(ModelAndView model, ModelMap map, HttpServletRequest request) throws IOException {
+
+		String loginString = (String) request.getSession().getAttribute("loginflag");
+		Integer profile_id = (Integer) request.getSession().getAttribute("profileid");
+		try {
+			/* Login Checking Code Start */
+			if (loginString.equals("Y")) {
+
+				if (profile_id == Bpil_User_ProfileId_List.ADMIN_PROFILE_ID) {
+
+					List<LookupAutofill> lookuplist = lookUpService.lookuplist();
+					LookupAutofill lookup = new LookupAutofill();
+					map.addAttribute("lookup", lookup);
+					map.addAttribute("lookuplist", lookuplist);
+
+					return new ModelAndView("LookUpType");
+				} else {
+					return new ModelAndView("unauthorizedattempt");
+				}
+
+			} else {
+				Bpil_Users kwm_users = new Bpil_Users();
+				map.addAttribute("kwm_users", kwm_users);
+				System.out.println("Here ------> berger login"); // Cursor comes to here
+				return new ModelAndView("login");
+			}
+			/* Login Checking Code Ends */
+		} catch (NullPointerException e) {
+			Bpil_Users kwm_users = new Bpil_Users();
+			map.addAttribute("kwm_users", kwm_users);
+			System.out.println("Here ------> berger login"); // Cursor comes to here
+			return new ModelAndView("login");
+		}
+
+	}
+
+	// download Product Master
+	@RequestMapping("/downloadProductMaster")
+	public ModelAndView downloadProductMaster(ModelMap map, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		// generate scheme analysis report in excel
+		XSSFWorkbook workbook = new XSSFWorkbook();
+		XSSFSheet spreadsheet = workbook.createSheet("Product Master.xlsx");
+
+		XSSFFont font = workbook.createFont();
+		font.setFontHeightInPoints((short) 12);
+		font.setBold(true);
+
+		CellStyle cellstyle = workbook.createCellStyle();
+		cellstyle.setWrapText(true);
+		cellstyle.setFont(font);
+
+		XSSFRow row = spreadsheet.createRow(0);
+		XSSFCell cell;
+
+		cell = row.createCell(0);
+		cell.setCellValue("PRODUCT_ID");
+		cellstyle.setLocked(true);
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(0, 3500);
+		cellstyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+
+		cell = row.createCell(1);
+		cell.setCellValue("PRODUCT");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(1, 3000);
+
+		cell = row.createCell(2);
+		cell.setCellValue("PRD_DESC");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(2, 3000);
+
+		cell = row.createCell(3);
+		cell.setCellValue("PRD_CODE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(3, 3000);
+
+		cell = row.createCell(4);
+		cell.setCellValue("PRD_GRP");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(6, 3000);
+
+		cell = row.createCell(5);
+		cell.setCellValue("PRD_CAT");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(7, 3000);
+
+		cell = row.createCell(6);
+		cell.setCellValue("PRD_CAT_DESC");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(8, 4000);
+
+		cell = row.createCell(7);
+		cell.setCellValue("PACK_SIZE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(12, 3000);
+
+		cell = row.createCell(8);
+		cell.setCellValue("CREATION_DATE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(14, 5000);
+
+		cell = row.createCell(9);
+		cell.setCellValue("LAST_UPDATE_DATE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(16, 5000);
+
+		try {
+			// to upload excel file
+			String filename = "Product Master.xlsx";
+			String filepath = request.getServletContext().getRealPath("/ruledocs");
+			System.out.println(filepath);
+
+			File exportExcelfile = new File(filepath + "/" + filename);
+			exportExcelfile.createNewFile();
+			System.out.println(exportExcelfile.getAbsolutePath());
+			String exportExcelfilepath = exportExcelfile.getAbsolutePath();
+			FileInputStream in = new FileInputStream(exportExcelfile);
+			FileOutputStream out = new FileOutputStream(exportExcelfilepath);
+
+//		FileOutputStream out = new FileOutputStream(new File(environment.getRequiredProperty("exportFilePath") + filename));
+
+			workbook.write(out);
+			out.close();
+
+			// to download excel file
+			int filelen = Integer.parseInt(Long.toString(exportExcelfile.length()));
+			response.setContentType("text/html");
+			PrintWriter out1 = response.getWriter();
+			String fileName = "Product Master.xlsx";
+			response.setContentType("APPLICATION/OCTET-STREAM");
+			response.setContentLengthLong(exportExcelfile.length());
+			response.setHeader("Content-Disposition", "attachment;fileName=\"" + exportExcelfile.getName() + "\"");
+
+//          response.setHeader("Content-Disposition", "attachment;fileName=\"" + fileName + "\"");
+
+//          FileCopyUtils.copy(in, response.getOutputStream());
+
+			int i;
+//          FileInputStream file = new FileInputStream(environment.getRequiredProperty("exportFilePath") + fileName);
+//          FileInputStream file = new FileInputStream(exportExcelfilepath);
+			while ((i = in.read()) != -1) {
+				out1.write(i);
+			}
+
+			out1.close();
+
+			exportExcelfile.delete();
+
+			in.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ModelAndView("MasterEntry");
+	}
+
+	// download Product Master
+	@RequestMapping("/downloadDealerMaster")
+	public ModelAndView downloadDealerMaster(ModelMap map, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		// generate scheme analysis report in excel
+		XSSFWorkbook workbook = new XSSFWorkbook();
+		XSSFSheet spreadsheet = workbook.createSheet("Dealer Master.xlsx");
+
+		XSSFFont font = workbook.createFont();
+		font.setFontHeightInPoints((short) 12);
+		font.setBold(true);
+
+		CellStyle cellstyle = workbook.createCellStyle();
+		cellstyle.setWrapText(true);
+		cellstyle.setFont(font);
+
+		XSSFRow row = spreadsheet.createRow(0);
+		XSSFCell cell;
+
+		cell = row.createCell(0);
+		cell.setCellValue("ORCL_DLR_ID");
+		cellstyle.setLocked(true);
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(0, 4000);
+		cellstyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+
+		cell = row.createCell(1);
+		cell.setCellValue("DLR_AC_NO");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(1, 4000);
+
+		cell = row.createCell(2);
+		cell.setCellValue("DLR_AC_NAME");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(2, 5000);
+
+		cell = row.createCell(3);
+		cell.setCellValue("BILL_TO_ID");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(3, 3000);
+
+		cell = row.createCell(4);
+		cell.setCellValue("CUST_TYPE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(4, 3000);
+
+		cell = row.createCell(5);
+		cell.setCellValue("DEPOT_CODE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(5, 4000);
+
+		cell = row.createCell(6);
+		cell.setCellValue("DLR_CAT");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(6, 3000);
+
+		cell = row.createCell(7);
+		cell.setCellValue("ADDRESS_LINE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(7, 5000);
+
+		cell = row.createCell(8);
+		cell.setCellValue("CITY");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(8, 4000);
+
+		cell = row.createCell(9);
+		cell.setCellValue("STATE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(9, 4000);
+
+		cell = row.createCell(10);
+		cell.setCellValue("COUNTRY");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(10, 4000);
+
+		cell = row.createCell(11);
+		cell.setCellValue("PIN_CODE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(11, 4000);
+
+		cell = row.createCell(12);
+		cell.setCellValue("EMAIL_ADDRESS");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(12, 5000);
+
+		cell = row.createCell(13);
+		cell.setCellValue("CONTACT_NUMBER");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(13, 5500);
+
+		cell = row.createCell(14);
+		cell.setCellValue("CREATION_DATE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(14, 5000);
+
+		cell = row.createCell(15);
+		cell.setCellValue("LAST_UPDATE_DATE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(15, 5000);
+
+		try {
+			// to upload excel file
+			String filename = "Dealer Master.xlsx";
+			String filepath = request.getServletContext().getRealPath("/ruledocs");
+			System.out.println(filepath);
+
+			File exportExcelfile = new File(filepath + "/" + filename);
+			exportExcelfile.createNewFile();
+			System.out.println(exportExcelfile.getAbsolutePath());
+			String exportExcelfilepath = exportExcelfile.getAbsolutePath();
+			FileInputStream in = new FileInputStream(exportExcelfile);
+			FileOutputStream out = new FileOutputStream(exportExcelfilepath);
+
+//		FileOutputStream out = new FileOutputStream(new File(environment.getRequiredProperty("exportFilePath") + filename));
+
+			workbook.write(out);
+			out.close();
+
+			// to download excel file
+			int filelen = Integer.parseInt(Long.toString(exportExcelfile.length()));
+			response.setContentType("text/html");
+			PrintWriter out1 = response.getWriter();
+			String fileName = "Dealer Master.xlsx";
+			response.setContentType("APPLICATION/OCTET-STREAM");
+			response.setContentLengthLong(exportExcelfile.length());
+			response.setHeader("Content-Disposition", "attachment;fileName=\"" + exportExcelfile.getName() + "\"");
+
+//          response.setHeader("Content-Disposition", "attachment;fileName=\"" + fileName + "\"");
+
+//          FileCopyUtils.copy(in, response.getOutputStream());
+
+			int i;
+//          FileInputStream file = new FileInputStream(environment.getRequiredProperty("exportFilePath") + fileName);
+//          FileInputStream file = new FileInputStream(exportExcelfilepath);
+			while ((i = in.read()) != -1) {
+				out1.write(i);
+			}
+
+			out1.close();
+
+			exportExcelfile.delete();
+
+			in.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ModelAndView("MasterEntry");
+	}
+
+	// download Product Master
+	@RequestMapping("/downloadTransactionMaster")
+	public ModelAndView downloadTransactionMaster(ModelMap map, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		// generate scheme analysis report in excel
+		XSSFWorkbook workbook = new XSSFWorkbook();
+		XSSFSheet spreadsheet = workbook.createSheet("Transaction Master.xlsx");
+
+		XSSFFont font = workbook.createFont();
+		font.setFontHeightInPoints((short) 12);
+		font.setBold(true);
+
+		CellStyle cellstyle = workbook.createCellStyle();
+		cellstyle.setWrapText(true);
+		cellstyle.setFont(font);
+
+		XSSFRow row = spreadsheet.createRow(0);
+		XSSFCell cell;
+
+		cell = row.createCell(0);
+		cell.setCellValue("SLS_BILL_TO");
+		cellstyle.setLocked(true);
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(0, 4000);
+		cellstyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+
+		cell = row.createCell(1);
+		cell.setCellValue("SLS_TRX_TYPE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(1, 4000);
+
+		cell = row.createCell(2);
+		cell.setCellValue("SLS_TRX_ID");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(2, 4000);
+
+		cell = row.createCell(3);
+		cell.setCellValue("SLS_TRX_NUMBER");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(3, 5000);
+
+		cell = row.createCell(4);
+		cell.setCellValue("SLS_TRX_DATE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(4, 4000);
+
+		cell = row.createCell(5);
+		cell.setCellValue("SLS_TRX_IND");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(5, 4000);
+
+		cell = row.createCell(6);
+		cell.setCellValue("SLS_SKU_CODE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(6, 4000);
+
+		cell = row.createCell(7);
+		cell.setCellValue("SLS_INV_TRX_ID");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(7, 4000);
+
+		cell = row.createCell(8);
+		cell.setCellValue("SLS_INV_DATE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(8, 4000);
+
+		cell = row.createCell(9);
+		cell.setCellValue("SLS_INV_NO");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(9, 4000);
+
+		cell = row.createCell(10);
+		cell.setCellValue("SLS_VOL");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(10, 3000);
+
+		cell = row.createCell(11);
+		cell.setCellValue("SLS_FNL_VOL");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(11, 4000);
+
+		cell = row.createCell(12);
+		cell.setCellValue("SLS_VAL");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(12, 3000);
+
+		cell = row.createCell(13);
+		cell.setCellValue("CREATED_BY");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(13, 4000);
+
+		cell = row.createCell(14);
+		cell.setCellValue("CREATION_DATE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(15, 5000);
+
+		cell = row.createCell(15);
+		cell.setCellValue("LAST_UPDATED_BY");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(15, 5000);
+
+		cell = row.createCell(16);
+		cell.setCellValue("LAST_UPDATE_DATE");
+		cell.setCellStyle(cellstyle);
+		spreadsheet.setColumnWidth(16, 4000);
+
+		try {
+			// to upload excel file
+			String filename = "Transaction Master.xlsx";
+			String filepath = request.getServletContext().getRealPath("/ruledocs");
+			System.out.println(filepath);
+
+			File exportExcelfile = new File(filepath + "/" + filename);
+			exportExcelfile.createNewFile();
+			System.out.println(exportExcelfile.getAbsolutePath());
+			String exportExcelfilepath = exportExcelfile.getAbsolutePath();
+			FileInputStream in = new FileInputStream(exportExcelfile);
+			FileOutputStream out = new FileOutputStream(exportExcelfilepath);
+
+//		FileOutputStream out = new FileOutputStream(new File(environment.getRequiredProperty("exportFilePath") + filename));
+
+			workbook.write(out);
+			out.close();
+
+			// to download excel file
+			int filelen = Integer.parseInt(Long.toString(exportExcelfile.length()));
+			response.setContentType("text/html");
+			PrintWriter out1 = response.getWriter();
+			String fileName = "Transaction Master.xlsx";
+			response.setContentType("APPLICATION/OCTET-STREAM");
+			response.setContentLengthLong(exportExcelfile.length());
+			response.setHeader("Content-Disposition", "attachment;fileName=\"" + exportExcelfile.getName() + "\"");
+
+//          response.setHeader("Content-Disposition", "attachment;fileName=\"" + fileName + "\"");
+
+//          FileCopyUtils.copy(in, response.getOutputStream());
+
+			int i;
+//          FileInputStream file = new FileInputStream(environment.getRequiredProperty("exportFilePath") + fileName);
+//          FileInputStream file = new FileInputStream(exportExcelfilepath);
+			while ((i = in.read()) != -1) {
+				out1.write(i);
+			}
+
+			out1.close();
+
+			exportExcelfile.delete();
+
+			in.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ModelAndView("MasterEntry");
+	}
+
+	@RequestMapping("/uploadMasterEntry")
+	public ModelAndView uploadMasterEntry(@RequestParam CommonsMultipartFile productdoc,
+			@RequestParam CommonsMultipartFile dealerdoc, @RequestParam CommonsMultipartFile transactiondoc,
+			HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model)
+			throws IOException, SAXException, SecurityException, RollbackException, HeuristicMixedException,
+			HeuristicRollbackException, SystemException {
+		System.out.println("uploadMasterEntry");
+
+		String newupdate = request.getServletContext().getRealPath("/WEB-INF");
+		String filepath = null;
+
+		try {
+			filepath = newupdate + "\\" + productdoc.getOriginalFilename();
+			File projectimg = new File(newupdate + "\\" + productdoc.getOriginalFilename());
+			FileOutputStream fos;
+
+			fos = new FileOutputStream(projectimg.getAbsolutePath());
+
+			fos.write(productdoc.getBytes());
+			fos.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		//// insert into another table Read Sheet no --- >> 1
+
+		File myFile = new File(filepath);
+		FileInputStream fis = new FileInputStream(myFile);
+		XSSFWorkbook myWorkBook = new XSSFWorkbook(fis);
+
+		XSSFSheet mySheet = myWorkBook.getSheetAt(0);
+		int totalrows = mySheet.getPhysicalNumberOfRows();
+		System.out.println("total " + totalrows);
+		Iterator<Row> rowIterator = mySheet.iterator();
+
+		int i = 1;
+		while (i < totalrows) {
+			Row row = rowIterator.next();
+
+			Iterator<Cell> cellIterator = row.cellIterator();
+
+			Cell cell = cellIterator.next();
+
+			if (mySheet.getRow(i).getCell(0) != null) {
+				cell = mySheet.getRow(i).getCell(0);
+				int product_id = (int) cell.getNumericCellValue();
+
+				cell = mySheet.getRow(i).getCell(1);
+				String product = cell.getStringCellValue();
+
+				cell = mySheet.getRow(i).getCell(2);
+				String product_desc = cell.getStringCellValue();
+
+				cell = mySheet.getRow(i).getCell(3);
+				String product_code = cell.getStringCellValue();
+
+				cell = mySheet.getRow(i).getCell(4);
+				String product_group = cell.getStringCellValue();
+
+				cell = mySheet.getRow(i).getCell(5);
+				String product_cat = cell.getStringCellValue();
+
+				cell = mySheet.getRow(i).getCell(6);
+				String product_cat_desc = cell.getStringCellValue();
+
+				cell = mySheet.getRow(i).getCell(7);
+				int pack_size = (int) cell.getNumericCellValue();
+
+				cell = mySheet.getRow(i).getCell(8);
+				Date creation_date = cell.getDateCellValue();
+
+				cell = mySheet.getRow(i).getCell(9);
+				Date last_updated_date = cell.getDateCellValue();
+
+				ProductMasterDemo pm = new ProductMasterDemo();
+				pm.setProduct_id(product_id);
+				pm.setProduct(product);
+				pm.setProduct_desc(product_desc);
+				pm.setProduct_cat(product_cat);
+				pm.setProduct_cat_desc(product_cat_desc);
+				pm.setProduct_code(product_code);
+				pm.setProduct_group(product_group);
+				pm.setPack_size(pack_size);
+				pm.setCreation_date(creation_date);
+				pm.setLast_updated_date(last_updated_date);
+
+				org.hibernate.Transaction tx = null;
+				Session session = hibernateTemplate.getSessionFactory().openSession();
+
+				try {
+					tx = session.beginTransaction();
+					session.save(pm);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					tx.commit();
+					session.close();
+					System.gc();
+				}
+
+				i++;
+			}
+		}
+
+		// Insert into dealer master demo
+		String newupdate1 = request.getServletContext().getRealPath("/WEB-INF");
+		String filepath1 = null;
+		try {
+			filepath1 = newupdate1 + "\\" + dealerdoc.getOriginalFilename();
+			File projectimg1 = new File(newupdate1 + "\\" + dealerdoc.getOriginalFilename());
+			FileOutputStream fos1;
+
+			fos1 = new FileOutputStream(projectimg1.getAbsolutePath());
+
+			fos1.write(dealerdoc.getBytes());
+			fos1.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		//// insert dealer into another table Read Sheet no --- >> 1
+
+		File myFile1 = new File(filepath1);
+		FileInputStream fis1 = new FileInputStream(myFile1);
+		XSSFWorkbook myWorkBook1 = new XSSFWorkbook(fis1);
+
+		XSSFSheet mySheet1 = myWorkBook1.getSheetAt(0);
+		int totalrows1 = mySheet1.getPhysicalNumberOfRows();
+		System.out.println("total " + totalrows1);
+		Iterator<Row> rowIterator1 = mySheet1.iterator();
+
+		int j = 1;
+		while (j < totalrows) {
+			Row row = rowIterator1.next();
+
+			Iterator<Cell> cellIterator = row.cellIterator();
+
+			Cell cell = cellIterator.next();
+
+			if (mySheet1.getRow(j).getCell(0) != null) {
+				cell = mySheet1.getRow(j).getCell(0);
+				int dlr_id = (int) cell.getNumericCellValue();
+
+				cell = mySheet1.getRow(j).getCell(1);
+				int dlr_ac_no = (int) cell.getNumericCellValue();
+
+				cell = mySheet1.getRow(j).getCell(2);
+				String dlr_ac_name = cell.getStringCellValue();
+
+				cell = mySheet1.getRow(j).getCell(3);
+				int bill_to = (int) cell.getNumericCellValue();
+
+				cell = mySheet1.getRow(j).getCell(4);
+				String cust_type = cell.getStringCellValue();
+
+				cell = mySheet1.getRow(j).getCell(5);
+				String depot_code = cell.getStringCellValue();
+
+				cell = mySheet1.getRow(j).getCell(6);
+				String dlr_cat = cell.getStringCellValue();
+
+				cell = mySheet1.getRow(j).getCell(7);
+				String address = cell.getStringCellValue();
+
+				cell = mySheet1.getRow(j).getCell(8);
+				String city = cell.getStringCellValue();
+
+				cell = mySheet1.getRow(j).getCell(9);
+				String state = cell.getStringCellValue();
+
+				cell = mySheet1.getRow(j).getCell(10);
+				String country = cell.getStringCellValue();
+
+				cell = mySheet1.getRow(j).getCell(11);
+				int pincode = (int) cell.getNumericCellValue();
+
+				cell = mySheet1.getRow(j).getCell(12);
+				String email = cell.getStringCellValue();
+
+				cell = mySheet1.getRow(j).getCell(13);
+				int contact = (int) cell.getNumericCellValue();
+
+				cell = mySheet1.getRow(j).getCell(14);
+				Date creation_date = cell.getDateCellValue();
+
+				cell = mySheet1.getRow(j).getCell(15);
+				Date last_updated_date = cell.getDateCellValue();
+
+				DEALERMASTERDEMO dm = new DEALERMASTERDEMO();
+				dm.setAddress_line(address);
+				dm.setBill_to(bill_to);
+				dm.setCity(city);
+				dm.setContact(contact);
+				dm.setCountry(country);
+				dm.setCreation_date(creation_date);
+				dm.setCust_type(cust_type);
+				dm.setDepot_code(depot_code);
+				dm.setDlr_ac_name(dlr_ac_name);
+				dm.setDlr_ac_no(dlr_ac_no);
+				dm.setDlr_cat(dlr_cat);
+				dm.setDlr_id(dlr_id);
+				dm.setEmail(email);
+				dm.setLast_updated_date(last_updated_date);
+				dm.setPincode(pincode);
+				dm.setState(state);
+
+				org.hibernate.Transaction tx = null;
+				Session session = hibernateTemplate.getSessionFactory().openSession();
+
+				try {
+					tx = session.beginTransaction();
+					session.save(dm);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					tx.commit();
+					session.close();
+					System.gc();
+				}
+
+				j++;
+			}
+		}
+
+		return new ModelAndView("MasterEntry");
+	}
+
+}

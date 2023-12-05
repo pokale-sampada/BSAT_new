@@ -1,0 +1,17 @@
+package com.omfys.bsat.service;
+
+import java.util.List;
+
+import com.omfys.bsat.model.Bpil_Region_Master;
+
+public interface RegionMasterService {
+
+	public int InsertRegion(Bpil_Region_Master bpil_Region_Master, int userId);
+
+	public List<Bpil_Region_Master> getRegionList();
+
+	public int saveregion(Bpil_Region_Master bpil_Region_Master);
+
+	public Bpil_Region_Master updateregion(int region_id);
+
+}

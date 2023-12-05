@@ -1,0 +1,27 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.com">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<form th:action="@{/dologin}" method="post">
+		<div class="form-group">
+
+			Username : <input name="username" type="text"
+				class="form-control" id="exampleInputEmail1"
+				aria-describedby="emailHelp" placeholder="Enter email"> 
+			Password :<input
+				name="password"  type="password"
+				class="form-control" id="exampleInputPassword1"
+				placeholder="Password">
+
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+
+
+	</form>
+</body>
+</html>
